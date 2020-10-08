@@ -62,6 +62,8 @@ class App extends React.Component{
     let rugiDayaPendukung = this.inputRugiDayaPendukung.current.value
     let startYear = this.inputStartYear.current.value
     let finishYear = this.inputFinishYear.current.value
+
+    console.log(this.inputFinishYear)
     
     /*initiation json objet data*/
     let jsonObject = {}
@@ -114,27 +116,19 @@ class App extends React.Component{
     
     if(!isValid){
       let desc = "<div>Pastikan semua form data pada <span class='bold'>kondisi ekonomi</span>, "+ 
-              "<span class='bold'>parameter bisnis</span>, <span class='bold'>parameter teknis terisi</span<.</div>"
+              "<span class='bold'>parameter bisnis</span> dan <span class='bold'>parameter teknis</span> terisi.</div>"
       this.setState({
         alertBase: <Alert alertDescription={desc} okAlert={this.hideAlert}/>
       })
+
+      return false
     }
 
-    // this.setState({
-    //   data: "dandi rahmawan"
-    // })
-    // axios.post("http://localhost:8080/calculate", jsonObject).then(res => {
-    //   console.log(res.data)
-    // })
-
-    // fetch("http://localhost:8080/calculate", {
-    //   method: "POST",
-    //   body: JSON.stringify(jsonObject)
-    // }).then(res => res.json()).then(result => {
-    //   alert("dandi")
-    // })
-
-    // console.log(JSON.stringify(jsonObject))
+    axios.post("http://localhost:8080/calculate", jsonObject).then(res => {
+        this.setState({
+          data: res.data
+        })
+    })
   }
 
   hideAlert(){
