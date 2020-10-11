@@ -3,10 +3,13 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBatteryFull, faBatteryHalf, faCar, faChevronDown, faCoins, faInfo, faInfoCircle, faListAlt, faPercent, faPlus, faQuestionCircle} from '@fortawesome/free-solid-svg-icons'
 import { setHeightFixedPosition } from '../function/function'
 import InfoInput from './info_input'
+import CurrencyFormat from 'react-currency-format'
 
 class input_base extends Component{
+    
     state = {
-        popup:null
+        popup:null,
+        biayaSpklu: 0
     }
 
     infoElement = React.createRef()
@@ -44,11 +47,11 @@ class input_base extends Component{
         }, 25)
     }
 
-    infoInput(e, noInfo){
+    infoInput(e, nameInfo){
         let x = e.clientX + parseInt("10")
         let y = e.clientY - 5
         this.setState({
-           popup: <InfoInput x={x} y={y} noInfo={noInfo} hideInfo={this.hidePopup}/>
+           popup: <InfoInput x={x} y={y} nameInfo={nameInfo} hideInfo={this.hidePopup}/>
         })
     }
 
@@ -80,7 +83,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputPph} placeholder="PPH" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "0")}>
+                                            <a onClick={(e) => this.infoInput(e, "pph")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -98,7 +101,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputInflasi} placeholder="Inflasi / tahun" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "0")}>
+                                            <a onClick={(e) => this.infoInput(e, "inflasi")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -116,7 +119,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputDiscountRate} placeholder="Discount rate" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "0")}>
+                                            <a onClick={(e) => this.infoInput(e, "discount rate")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -134,7 +137,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputJumlahKendaraanInisial} placeholder="Jumlah kendaraan inisial" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "0")}>
+                                            <a onClick={(e) => this.infoInput(e, "jumlah kbl")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -149,10 +152,19 @@ class input_base extends Component{
                                     <div style={{display: "flex", alignItems: "center"}}>
                                         <div className="main-border base-input-form">
                                             <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faCoins}/>
-                                            <input type="text" ref={this.props.inputBiayaSpklu} placeholder="Biaya SPKLU / site" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
+                                            <CurrencyFormat value={this.state.profit} 
+                                                placeholder="Biaya SPKLU / site"
+                                                style={{width: "100%", boxSizing: "border-box"}} 
+                                                thousandSeparator={true} prefix={''} 
+                                                onValueChange={(values) => {
+                                                    const {formattedValue, value} = values
+                                                    this.setState({biayaSpklu: value})
+                                                }
+                                            }/>
+                                            <input type="text" ref={this.props.inputBiayaSpklu} value={this.state.biayaSpklu} placeholder="Biaya SPKLU / site" style={{display: "none"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "0")}>
+                                            <a onClick={(e) => this.infoInput(e, "biaya spklu")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -183,7 +195,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputHargaJualPln} placeholder="Harga Jual PLN (Rp 707 X Q)" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "0")}>
+                                            <a onClick={(e) => this.infoInput(e, "harga jual pln")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -201,7 +213,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputHargaJualKonsumen} placeholder="Harga jual Konsumen (Rp 1605 X N)" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "0")}>
+                                            <a onClick={(e) => this.infoInput(e, "harga jual konsumen")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -219,7 +231,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputPertumbuhanKblPerTahun} placeholder="Pertumbuhan KBL pertahun (%)" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "0")}>
+                                            <a onClick={(e) => this.infoInput(e, "pertumbuhan kbl")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -237,7 +249,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputRasioSpklu} placeholder="Rasio SPKLU / KBL" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "0")}>
+                                            <a onClick={(e) => this.infoInput(e, "rasio spklu")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -266,7 +278,7 @@ class input_base extends Component{
                                         <input type="text" ref={this.props.inputJumlahKonetor} placeholder="Jumlah Konektor" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                     </div>
                                     <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                        <a onClick={(e) => this.infoInput(e, "0")}>
+                                        <a onClick={(e) => this.infoInput(e, "jumlah konektor")}>
                                             <FontAwesomeIcon icon={faQuestionCircle}/>
                                         </a>
                                     </div>
@@ -292,7 +304,7 @@ class input_base extends Component{
                                         <input type="text" ref={this.props.inputKapasitasKbl} placeholder="Kapasitas 1 KBL (Kwh)" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                     </div>
                                     <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                        <a onClick={(e) => this.infoInput(e, "0")}>
+                                        <a onClick={(e) => this.infoInput(e, "kapasitas kbl")}>
                                             <FontAwesomeIcon icon={faQuestionCircle}/>
                                         </a>
                                     </div>
@@ -305,7 +317,7 @@ class input_base extends Component{
                                         <input type="text" ref={this.props.inputRugiDayaPendukung} placeholder="Rugi - rugi dan daya pendukung" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                     </div>
                                     <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                        <a onClick={(e) => this.infoInput(e, "0")}>
+                                        <a onClick={(e) => this.infoInput(e, "rugi-rugi dan kebutuhan")}>
                                             <FontAwesomeIcon icon={faQuestionCircle}/>
                                         </a>
                                     </div>

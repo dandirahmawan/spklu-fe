@@ -159,14 +159,12 @@ select{
 }
 
 .card{
-    padding: 20px;
+    padding: 10px;
+    width: 100%;
     float: left;
     background: #2fa3a3;
     color: #FFF;
     border-radius: 4px;
-    margin-right: 20px;
-    width: 185px;
-    margin-bottom: 10px;
 }
 
 .collapse-base{
@@ -205,4 +203,10 @@ select{
     color: #ffacac; 
     margin-top: 4px;
     display: none;
+}
+
+.chart-menu{
+    margin-right: 20px;
+    padding: 10px;
+    font-family: bold_font;
 }

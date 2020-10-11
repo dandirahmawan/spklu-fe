@@ -7,10 +7,6 @@ import axios from 'axios'
 import './style/main.css'
 import Alert from './component/alert'
 
-function test(){
-  alert("dandi rahmawan")
-}
-
 class App extends React.Component{
 
   state = {
@@ -43,10 +39,11 @@ class App extends React.Component{
   inputRugiDayaPendukung = React.createRef()
   inputStartYear = React.createRef()
   inputFinishYear = React.createRef()
+  inputOptimizeType = React.createRef()
   runSimulasi = this.runSimulasi.bind(this)
   hideAlert = this.hideAlert.bind(this)
   
-  runSimulasi(){
+  runSimulasi(type){
     let pph = this.inputPph.current.value
     let inflasi = this.inputInflasi.current.value
     let discountRate = this.inputDiscountRate.current.value
@@ -62,8 +59,6 @@ class App extends React.Component{
     let rugiDayaPendukung = this.inputRugiDayaPendukung.current.value
     let startYear = this.inputStartYear.current.value
     let finishYear = this.inputFinishYear.current.value
-
-    console.log(this.inputFinishYear)
     
     /*initiation json objet data*/
     let jsonObject = {}
@@ -113,6 +108,12 @@ class App extends React.Component{
         isValid = false
       }
     }
+
+    /*optimze run validation*/
+    if(type == "optimize"){
+      let typeOptimize = this.inputOptimizeType.current.value
+      alert(typeOptimize)
+    }
     
     if(!isValid){
       let desc = "<div>Pastikan semua form data pada <span class='bold'>kondisi ekonomi</span>, "+ 
@@ -124,9 +125,10 @@ class App extends React.Component{
       return false
     }
 
-    axios.post("http://localhost:8080/calculate", jsonObject).then(res => {
+    axios.post("/api/calculate", jsonObject).then(res => {
         this.setState({
-          data: res.data
+          data: res.data,
+          discountRate: discountRate
         })
     })
   }
@@ -162,23 +164,10 @@ class App extends React.Component{
               startYear={this.inputStartYear} 
               finishYear={this.inputFinishYear} 
               runSimulasi={this.runSimulasi}
+              inputOptimizeType={this.inputOptimizeType}
+              discountRate={this.state.discountRate}
               data={this.state.data}
           />
-          
-          {/* <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
-          </header> */}
         </div>
       )
   }

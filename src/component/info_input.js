@@ -1,7 +1,7 @@
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { Component } from 'react'
-import {constInfoInput} from '../const/const'
+import {infoInput} from '../const/const'
 
 class info_input extends Component{
 
@@ -28,8 +28,12 @@ class info_input extends Component{
         infoElm.style.left = x+"px"
         infoElm.style.display = "block"
 
-        let seqInfo = parseInt(this.props.noInfo) -1
-        let textInfo = (constInfoInput[seqInfo] != undefined) ? constInfoInput[seqInfo] : "Belum ada deskripsi untuk ditampilkan"
+        let textInfo = "Belum ada deskripsi untuk ditampilkan"
+        infoInput.map(dt => {
+            if(this.props.nameInfo == dt.name){
+                textInfo = dt.desc
+            }
+        })
 
         this.setState({
             textInfo : textInfo
@@ -47,9 +51,13 @@ class info_input extends Component{
             infoElm.style.display = "block"
             this.hide = false
             
-            let seqInfo = parseInt(nextProps.noInfo) - 1
-            let textInfo = (constInfoInput[seqInfo] != undefined) ? constInfoInput[seqInfo] : "Belum ada deskripsi untuk ditampilkan"
-    
+            let textInfo = "Belum ada deskripsi untuk ditampilkan"
+            infoInput.map(dt => {
+                if(nextProps.nameInfo == dt.name){
+                    textInfo = dt.desc
+                }
+            })
+
             this.setState({
                 textInfo : textInfo
             })

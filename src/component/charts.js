@@ -1,8 +1,90 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 class charts extends React.Component{
+
+    state = {
+        chartNumber: 0,
+        valuecf:[],
+        valuepkl:[],
+        valueSpklu:[],
+        valueInfrastructireExp:[],
+        valueBiayaEnergiTahunan:[]
+    }
+
+    chartBase = React.createRef()
+    chartMenu = this.chartMenu.bind(this)
+
+    componentDidMount(){
+        this.setDataChart(this.props)
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps !== this.props){
+            this.setDataChart(nextProps)
+        }
+    }
+
+    setDataChart(props){        
+        let intData = []
+        props.data.cf.map(dt => {
+            let data = parseInt(dt)
+            intData.push(data)
+        })
+
+        let intDataPkl = []
+        props.data.pkl.map(dt => {
+            let data = parseInt(dt)
+            intDataPkl.push(data)
+        })
+
+        let intDataSpklu = []
+        props.data.js.map(dt => {
+            let data = parseInt(dt)
+            intDataSpklu.push(data)
+        })
+
+        let intDataIeik = []
+        props.data.ieik.map(dt => {
+            let data = parseInt(dt)
+            intDataIeik.push(Math.abs(data))
+        })
+
+        let intDataBet = []
+        props.data.bet.map(dt => {
+            let data = parseInt(dt)
+            intDataBet.push(Math.abs(data))
+        })
+
+        this.setState({
+            valuecf: intData,
+            valuepkl: intDataPkl,
+            valueSpklu: intDataSpklu,
+            valueInfrastructireExp: intDataIeik,
+            valueBiayaEnergiTahunan: intDataBet
+        })
+    }
+
+    chartMenu(e, seq){
+        let sq = parseInt(seq) - 1
+        // let charts = this.chartBase.current.children
+        let attr1 = "main-font-size chart-menu"
+        let attr2 = "main-font-size gryscale-font-color chart-menu"
+        
+        /*menu item set style*/
+        let menus = document.getElementsByClassName("chart-menu")
+        for(let i = 0;i<menus.length;i++){
+            menus[i].setAttribute("class", attr2)
+        }
+
+        e.target.setAttribute("class", attr1)
+        
+        this.setState({
+            chartNumber: sq
+        })
+    }
+
     render(){
         const chartData1 = {
             chart: {
@@ -14,7 +96,7 @@ class charts extends React.Component{
 
             xAxis: {
                 title:{text: '<span class="bold">Tahun</span>'},
-                categories: ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030']
+                categories: this.props.data.year
             },
 
             yAxis: {
@@ -25,7 +107,7 @@ class charts extends React.Component{
 
             series: [
                 {
-                    data: [-1000000, 1000000, 2000000, 3000000, 4000000, 5000000, 6000000, 7000000, 8000000, 9000000]
+                    data: this.state.valuecf
                 }
             ]
         };
@@ -41,7 +123,7 @@ class charts extends React.Component{
 
             xAxis: {
                 title:{text: '<span class="bold">Tahun</span>'},
-                categories: ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030']
+                categories: this.props.data.year
             },
 
             yAxis: {
@@ -54,11 +136,11 @@ class charts extends React.Component{
                 {
                     name    : 'Jumlah EV',
                     color   : 'green',
-                    data    : [-1000000, 1000000, 2000000, 3000000, 4000000, 5000000, 6000000, 7000000, 8000000, 9000000],
+                    data    : this.state.valuepkl
                 }, {
                     name    : 'Jumlah SPKLU',
                     color   : '#F00',
-                    data    : [1000000, 1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1700000, 1800000, 1900000]
+                    data    : this.state.valueSpklu
                 }
             ]
         }
@@ -74,7 +156,7 @@ class charts extends React.Component{
 
             xAxis: {
                 title:{text: '<span class="bold">Tahun</span>'},
-                categories: ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030']
+                categories: this.props.data.year
             },
 
             yAxis: {
@@ -87,26 +169,50 @@ class charts extends React.Component{
                 {
                     name    : 'Biaya Energi Pertahun',
                     color   : 'orange',
-                    data    : [-1000000, 1000000, 2000000, 3000000, 4000000, 5000000, 6000000, 7000000, 8000000, 9000000],
+                    data    : this.state.valueBiayaEnergiTahunan,
                 }, {
                     name: 'Capex untuk belanja SPKLU',
                     color: 'yellow',
-                    data: [1000000, 1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1700000, 1800000, 1900000]
+                    data: this.state.valueInfrastructireExp
                 }
             ]
         }
         return(
-            <div style={{marginRight: "320px", position: "relative", zIndex: "-1"}}>
-                <div className="main-border shadow" style={{borderRadius: "4px", overflow: "hidden", marginBottom: "20px"}}>
-                    <HighchartsReact highcharts={Highcharts} options={chartData1} />
+            <Fragment>
+                <div style={{marginRight: "320px", position: "relative", zIndex: "-1"}}>
+                    <div className="main-border" style={{padding: "10px", marginBottom: "5px", background: "#FFF"}}>
+                        <a onClick={(e) => this.chartMenu(e, "1")} className="main-font-size chart-menu">Cashflow SPKLU</a>
+                        <a onClick={(e) => this.chartMenu(e, "2")} className="main-font-size gryscale-font-color chart-menu" style={{paddingBottom: "10px"}}>Roadmap SPKLU dan EV</a>
+                        <a onClick={(e) => this.chartMenu(e, "3")} className="main-font-size gryscale-font-color chart-menu" style={{paddingBottom: "10px"}}>Chart Biaya Expenses</a>
+                    </div>
+                    <div ref={this.chartBase}>
+                        <div className="main-border shadow" style={{borderRadius: "4px", overflow: "hidden", marginBottom: "20px"}}>
+                            {
+                                (this.state.chartNumber == 0) 
+                                ?
+                                    <HighchartsReact highcharts={Highcharts} options={chartData1} />
+                                : "" 
+                            }
+
+                            {
+                                (this.state.chartNumber == 1) 
+                                ?
+                                    <HighchartsReact highcharts={Highcharts} options={chartData2} />
+                                : "" 
+                            }
+                            
+                            {
+                                (this.state.chartNumber == 2) 
+                                ?
+                                    <HighchartsReact highcharts={Highcharts} options={chartData3} />
+                                : "" 
+                            }
+
+                        </div>
+                    </div>
                 </div>
-                <div className="main-border shadow" style={{borderRadius: "4px", overflow: "hidden", marginBottom: "20px"}}>
-                    <HighchartsReact highcharts={Highcharts} options={chartData2} />
-                </div>
-                <div className="main-border shadow" style={{borderRadius: "4px", overflow: "hidden", marginBottom: "20px"}}>
-                    <HighchartsReact highcharts={Highcharts} options={chartData3} />
-                </div>
-            </div>
+            </Fragment>
+            
         )
     }
 }

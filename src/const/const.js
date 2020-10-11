@@ -7,6 +7,22 @@
 /*param = 7*/export const infoJumlahKonektor     = "Jumlah konektor yang disediakan pada sebuah EVSE"
 /*param = 8*/export const infoRugiDayaPendukung  = "Rugi-rugi sebuah EVSE dan daya pendukung (auxillary power) pada sebuah SPKLU (untuk lampu dll)";
 
+export const infoInput = [
+    {"name":"pph", "desc": "Persentase pajak yang perlu dibayarkan dari penghasilan bisnis"},
+    {"name":"inflasi", "desc": "Asumsi inflasi tahunan selama periode simulasi"},
+    {"name":"discount rate", "desc": "Nilai penurunan value dalam perhitungan NPV"},
+    {"name":"jumlah kbl", "desc": "Asumsi jumlah kendaraan yang ada saat awal simulasi"},
+    {"name":"biaya spklu", "desc": "Biaya yang dikeluarkan untuk membangun sati site SPKLU"},
+    {"name":"harga jual pln", "desc": "Faktor pengali harga jual listrik PLN kepada pengelola bisnis SPKLU"},
+    {"name":"harga jual konsumen", "desc": "Faktor pengali harga julan listrik kepada consumer"},
+    {"name":"pertumbuhan kbl", "desc": "Asumsi laju petumbuhan jumlah KBL pertahun"},
+    {"name":"rasio spklu", "desc": "Rasio berapa jumlah KBL yang ditargetkan untuk dilayani sebuah SPKLU tunggal"},
+    {"name":"jumlah konektor", "desc": "Jumlah konektor pada spklu"},
+    {"name":"kapasitas kbl", "desc": "Kapasitas pengisian 1 kendaraan listrik (default value=25 kWh)"},
+    {"name":"rugi-rugi dan kebutuhan", "desc": "Rugi-rugi dan kebutuhan daya pendukung (default value=10%)"}
+]
+
+
 export const constInfoInput = [
     infoBiayaSpkluPerSite,
     infoHargaJualPln,
@@ -16,4 +32,14 @@ export const constInfoInput = [
     infoKapasitas1Kbl,
     infoJumlahKonektor,
     infoRugiDayaPendukung
+]
+
+export const choicesOptimize = [
+    {"id":"a", "desc": "NPV maksimum"},
+    {"id":"b", "desc": "Harga EVSE maksimum"},
+    {"id":"c", "desc": "Persen subsidi energi minimum"},
+    {"id":"d", "desc": "Rasio SPKLU:BEV minimum"},
+    {"id":"e", "desc": "Rasio harga listrik PLN maksimum"},
+    {"id":"f", "desc": "Rasio tarif jual SPKLU minimum"},
+    {"id":"g", "desc": "Biaya sewa lahan maksimum"}
 ]

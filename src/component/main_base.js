@@ -3,9 +3,14 @@ import IndikatorKunci from './indikator_kunci'
 import Charts from './charts'
 import Conclussions from './conclusion'
 import Logo from '../image/Logo_BPPT.png'
+import {choicesOptimize} from '../const/const'
 
 class main_base extends React.Component{
     render(){
+        const optionOptimize = choicesOptimize.map(dt => {
+            return <option value={dt.id}>{dt.desc}</option>
+        })
+
         return(
             <div id="main-base">
                 <div className="main-border-bottom" style={{padding: "20px", background: "#FFF"}}>
@@ -53,22 +58,12 @@ class main_base extends React.Component{
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <button className="btn-primary main-font-size shadow">Get CSV</button>
                             <div className="main-border-left" style={{marginLeft: "10px", paddingLeft: "10px"}}>
-                                <select className="main-border shadow" style={{width: "100px"}}>
-                                    <option>2020</option>
-                                    <option>2021</option>
-                                    <option>2022</option>
-                                    <option>2023</option>
-                                    <option>2024</option>
-                                    <option>2025</option>
-                                    <option>2026</option>
-                                    <option>2027</option>
-                                    <option>2028</option>
-                                    <option>2029</option>
-                                    <option>2030</option>
+                                <select ref={this.props.inputOptimizeType} id="slc-typ-optmz" className="main-border shadow">
+                                    {optionOptimize}
                                 </select>
                                 &nbsp;&nbsp;
                             </div>
-                            <button className="btn-primary main-font-size shadow">Optimize</button>    
+                            <button onClick={() => this.props.runSimulasi("optimize")} className="btn-primary main-font-size shadow">Optimize</button>    
                         </div>
                     </div>
                 </div>
@@ -81,10 +76,23 @@ class main_base extends React.Component{
                         </div>
                     :
                         <div>
-                            <IndikatorKunci/>
-                            <div style={{overflow: "hidden", position: "relative", zIndex: "1", padding: "20px"}}>
-                                <Conclussions/>
-                                <Charts/>
+                            <IndikatorKunci npv={this.props.data.data.npv}
+                                            irr={this.props.data.data.irr}
+                                            mirr={this.props.data.data.mirr}
+                                            bep={this.props.data.data.bep}
+                                            pi={this.props.data.data.pi}
+                                            pp={this.props.data.data.pprd}
+                                            />
+                            <div style={{overflow: "hidden", position: "relative", zIndex: "1", padding: "20px", paddingTop: "10px"}}>
+                                <Conclussions npv={this.props.data.data.npv}
+                                            irr={this.props.data.data.irr}
+                                            mirr={this.props.data.data.mirr}
+                                            bep={this.props.data.data.bep}
+                                            pi={this.props.data.data.pi}
+                                            pp={this.props.data.data.pprd}
+                                            discountRate={this.props.discountRate}
+                                            />
+                                <Charts data={this.props.data.data}/>
                             </div>    
                         </div>    
                 }            
