@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import axios from 'axios'
+import axios from 'axios';
 import * as serviceWorker from './serviceWorker';
+import {environment} from './const/environment'
 
-axios.defaults.baseURL = 'http://localhost:8080';
+/*set default / interceptor request*/
+axios.defaults.baseURL = environment.baseUrl;
 
 ReactDOM.render(
   <React.StrictMode>

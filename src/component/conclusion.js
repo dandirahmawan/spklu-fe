@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faExclamationTriangle, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 
 class conclusionns extends React.Component{
 
     state = {
-        layak: true
+        layak: true,
+        halfYear: 0
     }
 
     setKelayakan = this.setKelayakan.bind(this)
@@ -24,7 +25,11 @@ class conclusionns extends React.Component{
             kelayakan = false
         }
         
-        if(parseFloat(props.pp) <= 3.5){
+        let startYear = props.startYear.current.value
+        let finishYear = props.finishYear.current.value
+        let halfYear = (parseInt(1) + (parseInt(finishYear) - parseInt(startYear))) / 2
+        this.setState({halfYear: halfYear})
+        if(parseFloat(props.pp) > halfYear){
             kelayakan = false
         }
 
@@ -74,9 +79,9 @@ class conclusionns extends React.Component{
                             {
                                 (parseFloat(this.props.npv) > 0)
                                 ?
-                                    <FontAwesomeIcon icon={faCheckCircle}/>
+                                    <FontAwesomeIcon icon={faCheckCircle} style={{color: "green"}}/>
                                 :
-                                    <FontAwesomeIcon icon={faTimesCircle}/>   
+                                    <FontAwesomeIcon icon={faTimesCircle} style={{color: "red"}}/>  
                             }
                         </div>
                         <div className="bold" style={{marginLeft: "10px"}}>
@@ -87,15 +92,22 @@ class conclusionns extends React.Component{
                         style={{display: "flex", padding: "10px", borderRadius: "3px", background: "#f8f8f8FF", marginBottom: "10px"}}>
                         <div>
                             {
-                                (parseFloat(this.props.pp) > 3.5)
+                                (parseFloat(this.props.pp) < this.state.halfYear)
                                 ?
-                                    <FontAwesomeIcon icon={faCheckCircle}/>
+                                    <FontAwesomeIcon icon={faCheckCircle} style={{color: "green"}}/>
                                 :
-                                    <FontAwesomeIcon icon={faTimesCircle}/>   
+                                    <FontAwesomeIcon icon={faTimesCircle} style={{color: "red"}}/>   
                             }
                         </div>
                         <div className="bold" style={{marginLeft: "10px"}}>
                             {"PP < 50% umur alat"}
+                            {
+                                (parseFloat(this.props.pp) > this.state.halfYear)
+                                ?
+                                    <div style={{color: "red", fontSize: "11px", marginTop: "4px"}}><FontAwesomeIcon icon={faExclamationTriangle}/> PP lebih dari {this.state.halfYear}</div>
+                                :
+                                    ""
+                            }
                         </div>
                     </div>
                     <div className="main-font-size main-border shadow" 
@@ -104,9 +116,9 @@ class conclusionns extends React.Component{
                             {
                                 (parseFloat(this.props.irr) > this.props.discountRate)
                                 ?
-                                    <FontAwesomeIcon icon={faCheckCircle}/>
+                                    <FontAwesomeIcon icon={faCheckCircle} style={{color: "green"}}/>
                                 :
-                                    <FontAwesomeIcon icon={faTimesCircle}/>   
+                                    <FontAwesomeIcon icon={faTimesCircle} style={{color: "red"}}/>   
                             }
                         </div>
                         <div className="bold" style={{marginLeft: "10px"}}>
@@ -119,9 +131,9 @@ class conclusionns extends React.Component{
                             {
                                 (parseFloat(this.props.pi) > 1)
                                 ?
-                                    <FontAwesomeIcon icon={faCheckCircle}/>
+                                    <FontAwesomeIcon icon={faCheckCircle} style={{color: "green"}}/>
                                 :
-                                    <FontAwesomeIcon icon={faTimesCircle}/>   
+                                    <FontAwesomeIcon icon={faTimesCircle} style={{color: "red"}}/>   
                             }
                         </div>
                         <div className="bold" style={{marginLeft: "10px"}}>
@@ -131,7 +143,7 @@ class conclusionns extends React.Component{
                     <div className="main-font-size main-border shadow" 
                         style={{display: "flex", padding: "10px", borderRadius: "3px", background: "#f8f8f8FF", marginBottom: "10px"}}>
                         <div>
-                            <FontAwesomeIcon icon={faCheckCircle}/>
+                            <FontAwesomeIcon icon={faCheckCircle} style={{color: "green"}}/>
                         </div>
                         <div className="bold" style={{marginLeft: "10px"}}>
                             {"BEP < 50% Kapasitas"}

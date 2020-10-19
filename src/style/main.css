@@ -121,6 +121,14 @@ select{
     height: 5px;
 }
 
+.year-picker{
+    padding: 5px;
+    font-size: 12px;
+    box-shadow: 0px 2px 2px #d1d1d1;
+    border-radius: 3px;
+    z-index: 100;
+}
+
 #header{
     height: 50px;
     background: #FFF;
@@ -128,7 +136,7 @@ select{
     position: fixed;
     width: 100%;
     top: 0px;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .bold{

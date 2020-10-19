@@ -91,7 +91,8 @@ class charts extends React.Component{
                 type: 'spline'
             },
             title: {
-                text: '<span class="bold">Cashflow SPKLU 2020 - 2030</span>'
+                text: '<span class="bold">Cashflow SPKLU '+this.props.startYear.current.value+
+                        ' - '+this.props.finishYear.current.value+'</span>'
             },
 
             xAxis: {
@@ -104,6 +105,23 @@ class charts extends React.Component{
                    text: '<span class="bold">Rp in kIDR (x 1000)</span>'         
                 }      
             },
+
+            // plotOptions: {
+            //     series: {
+            //         cursor: 'pointer',
+            //         point: {
+            //             events: {
+            //                 click: (event) => {
+            //                     // this.test(this.category, this.y)
+            //                     console.log(event)
+            //                     alert(event.point.index)
+            //                     alert(event.point.y)
+            //                     // alert ('Category: '+ a.category +', value: '+ a.y);
+            //                 }
+            //             }
+            //         }
+            //     }
+            // },
 
             series: [
                 {
@@ -128,7 +146,7 @@ class charts extends React.Component{
 
             yAxis: {
                 title: {
-                   text: '<span class="bold">Rp in kIDR (x 1000)</span>'         
+                   text: ''         
                 }      
             },
 
@@ -161,7 +179,7 @@ class charts extends React.Component{
 
             yAxis: {
                 title: {
-                   text: '<span class="bold">Rp in kIDR (x 1000)</span>'         
+                   text: 'Pengeluaran (kIDR)'         
                 }      
             },
 
@@ -185,6 +203,7 @@ class charts extends React.Component{
                         <a onClick={(e) => this.chartMenu(e, "2")} className="main-font-size gryscale-font-color chart-menu" style={{paddingBottom: "10px"}}>Roadmap SPKLU dan EV</a>
                         <a onClick={(e) => this.chartMenu(e, "3")} className="main-font-size gryscale-font-color chart-menu" style={{paddingBottom: "10px"}}>Chart Biaya Expenses</a>
                     </div>
+                    {this.state.popup}
                     <div ref={this.chartBase}>
                         <div className="main-border shadow" style={{borderRadius: "4px", overflow: "hidden", marginBottom: "20px"}}>
                             {

@@ -15,7 +15,8 @@
     "react": "^16.13.1",
     "react-currency-format": "^1.0.0",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "react-year-picker": "^0.3.7"
   },
   "scripts": {
     "start": "set PORT=3006 && react-scripts start",
