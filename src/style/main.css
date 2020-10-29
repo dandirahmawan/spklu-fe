@@ -91,6 +91,16 @@ select{
     cursor: pointer;
 }
 
+.btn-primary-unhover{
+    padding: 7px;
+    color: #FFF;
+    background: #017dc3;
+    border: #597e9e;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
 .btn-primary:hover{
     padding: 7px;
     color: #FFF;
@@ -100,6 +110,24 @@ select{
     outline: none;
     cursor: pointer;
     opacity: 0.5;
+}
+
+.side-bar{
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    background: #f3f2f1;
+}
+
+.side-bar-menu{
+    padding: 15px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.side-bar-menu:hover{
+    background: #017dc3;
+    color: #FFF;
 }
 
 .gryscale-font-color{
@@ -166,6 +194,11 @@ select{
     border-left: 1px solid #d9d9d9;
 }
 
+.main-border-right{
+    border: none;
+    border-right: 1px solid #d9d9d9;
+}
+
 .card{
     padding: 10px;
     width: 100%;
@@ -173,6 +206,7 @@ select{
     background: #2fa3a3;
     color: #FFF;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .collapse-base{

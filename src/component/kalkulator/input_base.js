@@ -1,18 +1,18 @@
 import React, { Component, Fragment } from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBatteryFull, faBatteryHalf, faCar, faChevronDown, faCoins, faInfo, faInfoCircle, faListAlt, faPercent, faPlus, faQuestionCircle} from '@fortawesome/free-solid-svg-icons'
-import { setHeightFixedPosition } from '../function/function'
+import { setHeightFixedPosition } from '../../function/function'
 import InfoInput from './info_input'
 import CurrencyFormat from 'react-currency-format'
 
 class input_base extends Component{
     
     state = {
-        popup:null,
-        biayaEvse: null,
-        biayaSipil: null,
-        biayaKelistrikan: null,
-        biayaSewaLahan: null,
+        popup:"",
+        // biayaEvse: "",
+        // biayaSipil: "",
+        // biayaKelistrikan: "",
+        // biayaSewaLahan: "",
         jumlahKonektor: []
     }
 
@@ -24,8 +24,29 @@ class input_base extends Component{
     componentDidMount(){
         let elm = document.getElementById("input-form-base")
         setHeightFixedPosition(elm)
-
         document.addEventListener("click", this.handleClickOutsideInfo)
+
+        // this.setState({
+        //     biayaEvse: this.props.biayaEvse,
+        //     biayaKelistrikan: this.props.biayaKelistrikan,
+        //     biayaSewaLahan: this.props.biayaSewaLahan,
+        //     biayaSipil: this.props.biayaSipil
+        // })
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps != this.props){
+            let elm = document.getElementById("input-form-base")
+            setHeightFixedPosition(elm)
+            document.addEventListener("click", this.handleClickOutsideInfo)
+        
+            // this.setState({
+            //     biayaEvse: nextProps.biayaEvse,
+            //     biayaKelistrikan: nextProps.biayaKelistrikan,
+            //     biayaSewaLahan: nextProps.biayaSewaLahan,
+            //     biayaSipil: nextProps.biayaSipil
+            // })
+        }
     }
 
     menu(targetCollapse){
@@ -83,11 +104,14 @@ class input_base extends Component{
         let i = 0
         const inputJumlahKonektor = this.state.jumlahKonektor.map(dt => {
             i++
-            return <div style={{display: "flex", alignItems: "center", marginBottom: "3px"}}>
-                        <div className="main-border base-input-form" style={{width: "185px"}}>
+            return <div style={{alignItems: "center", marginBottom: "3px"}}>
+                        <div className="main-border base-input-form" style={{width: "185px", display: "flex", }}>
                             <div className="bold main-font-size" style={{color: "#000", padding: "7px"}}>{i}.</div>
-                            <input className="kwh-jmk-chl main-font-size" type="text" placeholder="(Kw)" 
+                            <input className="kwh-jmk-chl main-font-size" type="text" placeholder="(Kwh)" 
                                 style={{width: "100%", boxSizing: "border-box"}}></input>
+                        </div>
+                        <div className="base-alt-ip kwh-alt-val-21" style={{marginBottom: "2px"}}>
+                            <FontAwesomeIcon icon={faInfoCircle}/> kwh belum diisi
                         </div>
                     </div>
         })
@@ -184,15 +208,16 @@ class input_base extends Component{
                                             <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faCoins}/>
                                             <CurrencyFormat value={this.state.profit} 
                                                 placeholder=" Biaya pekerjaan sipil"
+                                                value={this.props.biayaSipil}
                                                 style={{width: "100%", boxSizing: "border-box"}} 
                                                 thousandSeparator={true} prefix={''} 
                                                 onValueChange={(values) => {
                                                     const {formattedValue, value} = values
-                                                    this.setState({biayaSipil: value})
+                                                    this.props.changeBiayaSipil(value)
                                                     // this.props.keyUpInput()
                                                 }
                                             }/>
-                                            <input type="text" ref={this.props.inputBiayaSipil} value={this.state.biayaSipil} placeholder="Biaya SPKLU / site" style={{display: "none"}} className="main-font-size"></input>
+                                            <input type="text" ref={this.props.inputBiayaSipil} value={this.props.biayaSipil} placeholder="Biaya SPKLU / site" style={{display: "none"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
                                             <a onClick={(e) => this.infoInput(e, "biaya spklu")}>
@@ -213,13 +238,14 @@ class input_base extends Component{
                                             <CurrencyFormat value={this.state.profit} 
                                                 placeholder="Biaya pekerjaan kelistrikan"
                                                 style={{width: "100%", boxSizing: "border-box"}} 
+                                                value={this.props.biayaKelistrikan}
                                                 thousandSeparator={true} prefix={''} 
                                                 onValueChange={(values) => {
                                                     const {formattedValue, value} = values
-                                                    this.setState({biayaKelistrikan: value})
+                                                    this.props.changeBiayaKelistrikan(value)
                                                 }
                                             }/>
-                                            <input type="text" ref={this.props.inputBiayaKelistrikan} value={this.state.biayaKelistrikan} placeholder="Biaya SPKLU / site" style={{display: "none"}} className="main-font-size"></input>
+                                            <input type="text" ref={this.props.inputBiayaKelistrikan} value={this.props.biayaKelistrikan} placeholder="Biaya SPKLU / site" style={{display: "none"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
                                             <a onClick={(e) => this.infoInput(e, "biaya spklu")}>
@@ -240,13 +266,14 @@ class input_base extends Component{
                                             <CurrencyFormat value={this.state.profit} 
                                                 placeholder="Harga EVSE"
                                                 style={{width: "100%", boxSizing: "border-box"}} 
+                                                value={this.props.biayaEvse}
                                                 thousandSeparator={true} prefix={''} 
                                                 onValueChange={(values) => {
                                                     const {formattedValue, value} = values
-                                                    this.setState({biayaEvse: value})
+                                                    this.props.changeBiayaEvse(value)
                                                 }
                                             }/>
-                                            <input type="text" ref={this.props.inputBiayaEvse} value={this.state.biayaEvse} placeholder="Biaya SPKLU / site" style={{display: "none"}} className="main-font-size"></input>
+                                            <input type="text" ref={this.props.inputBiayaEvse} value={this.props.biayaEvse} placeholder="Biaya SPKLU / site" style={{display: "none"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
                                             <a onClick={(e) => this.infoInput(e, "biaya spklu")}>
@@ -370,13 +397,15 @@ class input_base extends Component{
                                             <CurrencyFormat value={this.state.profit} 
                                                 placeholder="Biaya sewa lahan SPKLU / tahun"
                                                 style={{width: "100%", boxSizing: "border-box"}} 
-                                                thousandSeparator={true} prefix={''} 
+                                                thousandSeparator={true} 
+                                                prefix={''} 
+                                                value={this.props.biayaSewaLahan}
                                                 onValueChange={(values) => {
                                                     const {formattedValue, value} = values
-                                                    this.setState({biayaSewaLahan: value})
+                                                    this.props.changeBiayaSewaLahan(value)
                                                 }
                                             }/>
-                                            <input type="text" ref={this.props.inputBiayaSewaLahan} value={this.state.biayaSewaLahan} placeholder="Rasio SPKLU / KBL" style={{display: "none"}} className="main-font-size"></input>
+                                            <input type="text" ref={this.props.inputBiayaSewaLahan} value={this.props.biayaSewaLahan} placeholder="Rasio SPKLU / KBL" style={{display: "none"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
                                             <a onClick={(e) => this.infoInput(e, "rasio spklu")}>
@@ -426,7 +455,6 @@ class input_base extends Component{
                                         :
                                             ""
                                     }
-                                    
                                     
                                     <div className="base-alt-ip base-alt-ip-1">
                                         <FontAwesomeIcon icon={faInfoCircle}/> Jumlah konektor belum diisi

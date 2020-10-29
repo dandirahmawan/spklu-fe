@@ -12,7 +12,7 @@ export const infoInput = [
     {"name":"inflasi", "desc": "Asumsi inflasi tahunan selama periode simulasi"},
     {"name":"discount rate", "desc": "Nilai penurunan value dalam perhitungan NPV"},
     {"name":"jumlah kbl", "desc": "Asumsi jumlah kendaraan yang ada saat awal simulasi"},
-    {"name":"biaya spklu", "desc": "Biaya yang dikeluarkan untuk membangun sati site SPKLU"},
+    {"name":"biaya spklu", "desc": "Biaya yang dikeluarkan untuk membangun satu site SPKLU"},
     {"name":"harga jual pln", "desc": "Faktor pengali harga jual listrik PLN kepada pengelola bisnis SPKLU"},
     {"name":"harga jual konsumen", "desc": "Faktor pengali harga julan listrik kepada consumer"},
     {"name":"pertumbuhan kbl", "desc": "Asumsi laju petumbuhan jumlah KBL pertahun"},

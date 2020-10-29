@@ -1,7 +1,7 @@
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { Component } from 'react'
-import {infoInput} from '../const/const'
+import {infoInput} from '../../const/const'
 
 class info_input extends Component{
 

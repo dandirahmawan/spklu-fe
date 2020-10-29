@@ -4,10 +4,48 @@ import { faAnchor, faClock, faCoins, faDollarSign, faLightbulb } from '@fortawes
 import CurrencyFormat from 'react-currency-format'
 
 class indikator_kunci extends React.Component{
+
+    state = {
+        hover: null
+    }
+
+    onMouseOver = this.onMouseOver.bind(this)
+    onMouseLeave = this.onMouseLeave.bind(this)
+
+    onMouseOver(e, v){
+
+        let x = e.clientX + 10
+        let y = e.clientY
+        
+        this.setState({
+            hover: <div className="main-font-size main-border" 
+                        style={{position: "fixed", 
+                                background: "#FFF", 
+                                padding: "5px", 
+                                height: "auto", 
+                                top: y+"px",
+                                left: x+"px",
+                                width: "150px", 
+                                zIndex: "100",
+                                borderRadius: "3px"}}>
+                        {v}
+                    </div>
+        })
+    }
+
+    onMouseLeave(){
+        this.setState({
+            hover: ""
+        })
+    }
+
     render(){
         return(
             <div style={{padding: "20px", paddingBottom: "10px", paddingTop: "10px", overflow: "hidden", display: "flex"}}>
-                <div className="card main-border shadow">
+                
+                {this.state.hover}
+
+                <div onMouseOver={(e) => this.onMouseOver(e, "Net Present Value")} onMouseLeave={this.onMouseLeave} className="card main-border shadow">
                     <div style={{display: "flex"}}>
                         <div style={{marginRight: "10px"}}>
                             <FontAwesomeIcon style={{fontSize: "40px"}} icon={faClock}/>
@@ -23,7 +61,7 @@ class indikator_kunci extends React.Component{
                         </div>
                     </div>
                 </div>
-                <div className="card main-border shadow">
+                <div onMouseOver={(e) => this.onMouseOver(e, "Internal Rate of Return")} onMouseLeave={this.onMouseLeave} className="card main-border shadow">
                     <div style={{display: "flex"}}>
                         <div style={{marginRight: "10px"}}>
                             <FontAwesomeIcon style={{fontSize: "40px"}} icon={faCoins}/>
@@ -34,7 +72,7 @@ class indikator_kunci extends React.Component{
                         </div>
                     </div>
                 </div>
-                <div className="card main-border shadow">
+                <div onMouseOver={(e) => this.onMouseOver(e, "Break Event Point")} onMouseLeave={this.onMouseLeave} className="card main-border shadow">
                     <div style={{display: "flex"}}>
                         <div style={{marginRight: "10px"}}>
                             <FontAwesomeIcon style={{fontSize: "40px"}} icon={faAnchor}/>
@@ -50,7 +88,7 @@ class indikator_kunci extends React.Component{
                         </div>
                     </div>
                 </div>
-                <div className="card main-border shadow">
+                <div onMouseOver={(e) => this.onMouseOver(e, "Profitability Index")} onMouseLeave={this.onMouseLeave} className="card main-border shadow">
                     <div style={{display: "flex"}}>
                         <div style={{marginRight: "10px"}}>
                             <FontAwesomeIcon style={{fontSize: "40px"}} icon={faDollarSign}/>
@@ -61,7 +99,7 @@ class indikator_kunci extends React.Component{
                         </div>
                     </div>
                 </div>
-                <div className="card main-border shadow">
+                <div onMouseOver={(e) => this.onMouseOver(e, "Payback Period")} onMouseLeave={this.onMouseLeave} className="card main-border shadow">
                     <div style={{display: "flex"}}>
                         <div style={{marginRight: "10px"}}>
                             <FontAwesomeIcon style={{fontSize: "40px"}} icon={faLightbulb}/>
