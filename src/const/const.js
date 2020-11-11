@@ -13,8 +13,8 @@ export const infoInput = [
     {"name":"discount rate", "desc": "Nilai penurunan value dalam perhitungan NPV"},
     {"name":"jumlah kbl", "desc": "Asumsi jumlah kendaraan yang ada saat awal simulasi"},
     {"name":"biaya spklu", "desc": "Biaya yang dikeluarkan untuk membangun satu site SPKLU"},
-    {"name":"harga jual pln", "desc": "Faktor pengali harga jual listrik PLN kepada pengelola bisnis SPKLU"},
-    {"name":"harga jual konsumen", "desc": "Faktor pengali harga julan listrik kepada consumer"},
+    {"name":"harga jual pln", "desc": "Faktor pengali harga jual listrik PLN kepada pengelola bisnis SPKLU. Berbasis tarif curah sebesar Rp 707 x Q, dengan 0,8 ≤ Q ≤ 2."},
+    {"name":"harga jual konsumen", "desc": "Faktor pengali harga julan listrik kepada consumer. Menggunakan tarif layanan khusus sebesar Rp 1.650 x N, dengan N ≤ 1,5"},
     {"name":"pertumbuhan kbl", "desc": "Asumsi laju petumbuhan jumlah KBL pertahun"},
     {"name":"rasio spklu", "desc": "Rasio berapa jumlah KBL yang ditargetkan untuk dilayani sebuah SPKLU tunggal"},
     {"name":"jumlah konektor", "desc": "Jumlah konektor pada spklu"},
@@ -35,11 +35,11 @@ export const constInfoInput = [
 ]
 
 export const choicesOptimize = [
-    {"id":"a", "desc": "NPV maksimum"},
-    {"id":"b", "desc": "Harga EVSE maksimum"},
-    {"id":"c", "desc": "Persen subsidi energi minimum"},
-    {"id":"d", "desc": "Rasio SPKLU:BEV minimum"},
-    {"id":"e", "desc": "Rasio harga listrik PLN maksimum"},
-    {"id":"f", "desc": "Rasio tarif jual SPKLU minimum"},
-    {"id":"g", "desc": "Biaya sewa lahan maksimum"}
+    // {"id":"a", "desc": "NPV maksimum"},
+    {"id":"b", "desc": "Harga EVSE maksimum", "text" : "Harga EVSE", "name":"harga-evse"},
+    // {"id":"c", "desc": "Persen subsidi energi minimum","text" : "Persen subsidi energi", "name":"persen-subsidi-energi"},
+    {"id":"d", "desc": "Rasio SPKLU:BEV minimum", "text" : "Rasio Spklu : BEV", "name":"rasio-spklu"},
+    {"id":"e", "desc": "Rasio harga listrik PLN maksimum", "text" : "Rasio harga listrik PLN", "name":"rasio-harga-listrik-pln"},
+    {"id":"f", "desc": "Rasio tarif jual SPKLU minimum", "text" : "Rasio tarif jual SPKLU", "name":"rasio-tarif-jual-spklu"},
+    {"id":"g", "desc": "Biaya sewa lahan maksimum", "text" : "Biaya sewa lahan", "name":"biaya-sewa-lahan"}
 ]

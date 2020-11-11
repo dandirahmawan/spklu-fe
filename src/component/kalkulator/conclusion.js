@@ -6,7 +6,7 @@ class conclusionns extends React.Component{
 
     state = {
         layak: true,
-        halfYear: 0
+        halfYear: 3.5
     }
 
     setKelayakan = this.setKelayakan.bind(this)
@@ -25,11 +25,11 @@ class conclusionns extends React.Component{
             kelayakan = false
         }
         
-        let startYear = props.startYear.current.value
-        let finishYear = props.finishYear.current.value
-        let halfYear = (parseInt(1) + (parseInt(finishYear) - parseInt(startYear))) / 2
-        this.setState({halfYear: halfYear})
-        if(parseFloat(props.pp) > halfYear){
+        // let startYear = props.startYear.current.value
+        // let finishYear = props.finishYear.current.value
+        // let halfYear = (parseInt(1) + (parseInt(finishYear) - parseInt(startYear))) / 2
+        // this.setState({halfYear: halfYear})
+        if(parseFloat(props.pp) > this.state.halfYear){
             kelayakan = false
         }
 
@@ -92,9 +92,9 @@ class conclusionns extends React.Component{
                         style={{display: "flex", padding: "10px", borderRadius: "3px", background: "#f8f8f8FF", marginBottom: "10px"}}>
                         <div>
                             {
-                                (parseFloat(this.props.pp) < this.state.halfYear)
+                                (parseFloat(this.props.pp) <= this.state.halfYear)
                                 ?
-                                    <FontAwesomeIcon icon={faCheckCircle} style={{color: "green"}}/>
+                                    <div><FontAwesomeIcon icon={faCheckCircle} style={{color: "green"}}/></div>
                                 :
                                     <FontAwesomeIcon icon={faTimesCircle} style={{color: "red"}}/>   
                             }

@@ -1,9 +1,36 @@
+import { compose } from "redux"
+
 export function setHeightFixedPosition(element){
     let elmHeader = document.getElementById("header")
     let hh = elmHeader.offsetHeight
     let w = window.innerHeight
     let setHeight = w - hh
     element.style.height = setHeight+"px"
+}
+
+export function getCookieUsername(){
+    console.log(document.cookie)
+    var c = document.cookie.split(";")
+    var userId = "";
+    for(var a = 0;a<c.length;a++){
+        var d = c[a].split("=")
+        if(d[0].replace(" ", "") === 'username_tecs'){
+            userId = d[1]
+        }
+    }
+    return userId
+}
+
+export function getCookieToken(){
+    var c = document.cookie.split(";")
+    var token = "";
+    for(var a = 0;a<c.length;a++){
+        var d = c[a].split("=")
+        if(d[0].replace(" ", "") === 'token_tecs'){
+            token = d[1]
+        }
+    }
+    return token
 }
 
 export function numberOnlyInput(event){
@@ -18,7 +45,6 @@ export function numberOnlyInput(event){
         event.keyCode == 39 ||
         event.keyCode == 190 || 
         event.keyCode == 46) {
-        // Allow normal operation
     }else{
         event.preventDefault();
     }
@@ -53,135 +79,85 @@ export function currencyInput(event){
                     console.log(valStart)
                 }
                 
-                // console.log(valStart)
                 event.target.value = valStart
-                // for(let x = 0;x<1;x++){
-                //     let posStart = 3 * x
-                //     console.log(pos)    
-                // }
             }
-            // event.target.value = parseFloat(val).toLocaleString('en-US', {
-            //     style: 'decimal',
-            //     maximumFractionDigits: 2,
-            //     minimumFractionDigits: 2
-            // })
-            // let l = val.length
-            // event.target.value = 100
         }
     }
 }
 
-export function optzNpvMaksimum(k, p, d, u, q, n, g, gapYear, npv, discountRate, irr, pp){
+export function optzNpvMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
-    let halfPp = gapYear / 2
+    let halfPp = 3.5
 
     if(u < 1) isOptimasiSolutif = false
-    console.log(u+" < "+ 1)
     if(0.8 < q && q > 2) isOptimasiSolutif = false
-    console.log("0.8 <=2 "+q+" <= 2")
     if(n > 1.5) isOptimasiSolutif = false
-    console.log(n+" > 1.5")
     if(0 > g) isOptimasiSolutif = false
-    console.log("0 > "+g)
     if(u*k > p*d) isOptimasiSolutif = false
-    console.log(u*k+" > "+p*d)
     if(pp > halfPp) isOptimasiSolutif = false
-    console.log(pp+" > "+halfPp)
     if(irr < discountRate) isOptimasiSolutif = false
     if(npv < 0) isOptimasiSolutif = false
-    // console.log(npv+" < 0")
-    // console.log("optimasi solutif = "+isOptimasiSolutif)
     return isOptimasiSolutif;
 }
 
-export function optzRasioMinimumSPKLUBEV(k, p, d, u, q, n, g, gapYear, npv, discountRate, irr, pp){
+export function optzRasioMinimumSPKLUBEV(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
-    let halfPp = gapYear / 2
+    let halfPp = 3.5
 
     if(u < 1) isOptimasiSolutif = false
-    console.log(u+" < "+ 1)
     if(0.8 < q && q > 2) isOptimasiSolutif = false
-    console.log("0.8 <=2 "+q+" <= 2")
     if(n > 1.5) isOptimasiSolutif = false
-    console.log(n+" > 1.5")
-    // if(0 > g) isOptimasiSolutif = false
-    // console.log("0 > "+g)
     if(u*k > p*d) isOptimasiSolutif = false
-    console.log(u*k+" > "+p*d)
     if(pp > halfPp) isOptimasiSolutif = false
-    console.log(pp+" > "+halfPp)
     if(irr < discountRate) isOptimasiSolutif = false
-    if(npv < 0) isOptimasiSolutif = false
-    // console.log(npv+" < 0")
-    // console.log("optimasi solutif = "+isOptimasiSolutif)
+
     return isOptimasiSolutif;
 }
 
-export function optzRasiohargalistrikPLNmaksimum(k, p, d, u, q, n, g, gapYear, npv, discountRate, irr, pp){
+export function optzRasiohargalistrikPLNmaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
-    let halfPp = gapYear / 2
+    let halfPp = 3.5
 
     if(u < 1) isOptimasiSolutif = false
-    console.log(u+" < "+ 1)
-    // if(0.8 < q && q > 2) isOptimasiSolutif = false
-    // console.log("0.8 <=2 "+q+" <= 2")
     if(n > 1.5) isOptimasiSolutif = false
-    console.log(n+" > 1.5")
-    // if(0 > g) isOptimasiSolutif = false
-    // console.log("0 > "+g)
     if(u*k > p*d) isOptimasiSolutif = false
-    console.log(u*k+" > "+p*d)
     if(pp > halfPp) isOptimasiSolutif = false
-    console.log(pp+" > "+halfPp)
     if(irr < discountRate) isOptimasiSolutif = false
-    if(npv < 0) isOptimasiSolutif = false
-    // console.log(npv+" < 0")
-    // console.log("optimasi solutif = "+isOptimasiSolutif)
     return isOptimasiSolutif;
 }
 
-export function optzRasioTarifJualSPKLUMinimum(k, p, d, u, q, n, g, gapYear, npv, discountRate, irr, pp){
+export function optzRasioTarifJualSPKLUMinimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
-    let halfPp = gapYear / 2
+    let halfPp = 3.5
     
     if(u < 1) isOptimasiSolutif = false
-    console.log(u+" < "+ 1)
     if(0.8 < q && q > 2) isOptimasiSolutif = false
-    console.log("0.8 <=2 "+q+" <= 2")
-    // if(n > 1.5) isOptimasiSolutif = false
-    // console.log(n+" > 1.5")
-    // if(0 > g) isOptimasiSolutif = false
-    // console.log("0 > "+g)
     if(u*k > p*d) isOptimasiSolutif = false
-    console.log(u*k+" > "+p*d)
     if(pp > halfPp) isOptimasiSolutif = false
-    console.log(pp+" > "+halfPp)
     if(irr < discountRate) isOptimasiSolutif = false
     if(npv < 0) isOptimasiSolutif = false
-    // console.log(npv+" < 0")
-    // console.log("optimasi solutif = "+isOptimasiSolutif)
     return isOptimasiSolutif;
 }
 
-export function optzBiayaSewaLahanMaksimum(k, p, d, u, q, n, g, gapYear, npv, discountRate, irr, pp){
+export function optzBiayaSewaLahanMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
-    let halfPp = gapYear / 2
+    let halfPp = 3.5
     
     if(u < 1) isOptimasiSolutif = false
-    console.log(u+" < "+ 1)
     if(0.8 < q && q > 2) isOptimasiSolutif = false
-    console.log("0.8 <=2 "+q+" <= 2")
     if(n > 1.5) isOptimasiSolutif = false
-    console.log(n+" > 1.5")
-    // if(0 > g) isOptimasiSolutif = false
-    // console.log("0 > "+g)
     if(u*k > p*d) isOptimasiSolutif = false
-    console.log(u*k+" > "+p*d)
     if(pp > halfPp) isOptimasiSolutif = false
-    console.log(pp+" > "+halfPp)
     if(irr < discountRate) isOptimasiSolutif = false
     if(npv < 0) isOptimasiSolutif = false
-    // console.log(npv+" < 0")
-    // console.log("optimasi solutif = "+isOptimasiSolutif)
+
     return isOptimasiSolutif;
+}
+
+export function isOnline(){
+    if (navigator.onLine) { 
+        return true
+    } else {
+        return false
+    }
 }

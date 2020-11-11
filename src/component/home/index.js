@@ -17,7 +17,7 @@ class index extends React.Component{
                     </div>
 
                     <div className="bold" style={{padding: "10px", textAlign: "center", zIndex: "1", fontSize: "25px", marginTop: "50px"}}>
-                        Kalkualtor Tekno-Ekonomi FCS BPPT
+                        Kalkulator Tekno-Ekonomi FCS BPPT
                     </div>
                     
                     <div style={{textAlign: "center", marginTop: "10px", zIndex: "1"}}>

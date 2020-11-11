@@ -1,6 +1,11 @@
 *{
     padding: 0;
     margin: 0;
+    outline: none;
+}
+
+button{
+    cursor: pointer;
 }
 
 a{
@@ -112,6 +117,27 @@ select{
     opacity: 0.5;
 }
 
+.btn-primary-white{
+    padding: 7px;
+    color: green;
+    background:#FFF;
+    border: #00bf00 1px solid;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn-primary-white:hover{
+    padding: 7px;
+    color: green;
+    background:#FFF;
+    border: #00bf00 1px solid;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
 .side-bar{
     position: fixed;
     width: 250px;
@@ -132,6 +158,10 @@ select{
 
 .gryscale-font-color{
     color: #a6a6a6;
+}
+
+.gryscale-background-color{
+    background: #a6a6a6;
 }
 
 .sidebar::-webkit-scrollbar-thumb {
@@ -251,4 +281,29 @@ select{
     margin-right: 20px;
     padding: 10px;
     font-family: bold_font;
+}
+
+.tooltip-text{
+    position: relative;
+    display: none;
+}
+
+.tooltip:hover .tooltip-text{
+    display: none;
+}
+
+.tooltip:hover .tooltip-text{
+    display: block;
+    position: absolute;
+}
+
+.txt-cpy{
+    padding: 9px;
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    position: fixed;
+    font-size: 11px;
+    margin-left: 235px;
+    border-radius: 0px;
+    display: none;
 }

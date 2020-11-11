@@ -88,7 +88,7 @@ class charts extends React.Component{
     render(){
         const chartData1 = {
             chart: {
-                type: 'spline'
+                type: 'area'
             },
             title: {
                 text: '<span class="bold">Cashflow SPKLU '+this.props.startYear.current.value+

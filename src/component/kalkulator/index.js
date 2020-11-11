@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Header from './header'
 import InputBase from './input_base'
 import MainBase from './main_base'
@@ -9,6 +9,7 @@ import {numberOnlyInput, optzBiayaSewaLahanMaksimum, optzNpvMaksimum, optzRasioh
 import { connect } from 'react-redux';
 import { setDefaultValue } from '../../redux/action';
 import LoadGif from '../../image/Pulse-1s-200px.gif';
+import { choicesOptimize } from '../../const/const';
 
 class index extends React.Component{
 
@@ -26,20 +27,24 @@ class index extends React.Component{
     biayaSipil: "",
     biayaKelistrikan: "",
     biayaSewaLahan: "",
-    dayaLuaran: "",
+    dayaLuaran: 0,
     jsonParam:{},
     data:null,
     alertBase: null,
     isLoad: false,
     isOptimaziSolutif: true,
     isOptimize: false,
-    isLoadStart: true
+    typeOptimize: null,
+    isLoadStart: true,
+    hideOptimize: true,
+    requestCalculate: {}
   }
 
   inputBiayaEvse = React.createRef()
   inputBiayaSipil = React.createRef()
   inputBiayaKelistrikan = React.createRef()
   inputDiscountRate = React.createRef()
+  inputSubsidiEnergi = React.createRef()
   inputHargaJualKonsumen = React.createRef()
   inputHargaJualPln = React.createRef()
   inputInflasi = React.createRef()
@@ -48,7 +53,7 @@ class index extends React.Component{
   inputPertumbuhanKblPerTahun = React.createRef() 
   inputRasioSpklu = React.createRef()
   inputJumlahKonektor = React.createRef()
-  inputDayaMaksimum = React.createRef()
+  // inputDayaMaksimum = React.createRef()
   inputKapasitasKbl = React.createRef()
   inputRugiDayaPendukung = React.createRef()
   inputStartYear = React.createRef()
@@ -57,40 +62,41 @@ class index extends React.Component{
   inputBiayaSewaLahan = React.createRef()
   inputPenggunaanEvse = React.createRef()
   baseKalkulator = React.createRef()
+  inputJumlahDispenser = React.createRef()
 
   changeBiayaEvse = this.changeBiayaEvse.bind(this)
   changeBiayaKelistrikan = this.changeBiayaKelistrikan.bind(this)
   changeBiayaSipil = this.changeBiayaSipil.bind(this)
   changeBiayaSewaLahan = this.changeBiayaSewaLahan.bind(this)
-
+  hideOptimizeAction = this.hideOptimizeAction.bind(this)
   runSimulasi = this.runSimulasi.bind(this)
   hideAlert = this.hideAlert.bind(this)
+  copyOptimize = this.copyOptimize.bind(this)
 
   componentDidMount(){
     document.addEventListener("keydown", numberOnlyInput)
     axios.get("/api/admin/form-value").then(res => {
       if(res.data.message == "success"){
         this.props.setDataDefaultRedux(res.data.data)
-
         this.inputBiayaKelistrikan.current.value = this.props.dataDefault.biayaPekerjaanKelistrikan
         this.inputBiayaSipil.current.value = this.props.dataDefault.biayaPekerjaanSipil
         this.inputBiayaSewaLahan.current.value =  this.props.dataDefault.biayaSewaLahan
-        this.inputDayaMaksimum.current.value = this.props.dataDefault.dayaMaksimumKonektor
         this.inputDiscountRate.current.value = this.props.dataDefault.discountRate
         this.inputPenggunaanEvse.current.value = this.props.dataDefault.durasiPenggunaanEvse
         this.inputBiayaSewaLahan.current.value = this.props.dataDefault.biayaSewaLahan
-        // this.props.dataDefault.hargaEVSE
         this.inputHargaJualKonsumen.current.value = this.props.dataDefault.hargaJualKonsumen
         this.inputHargaJualPln.current.value = this.props.dataDefault.hargaJualPln
         this.inputInflasi.current.value = this.props.dataDefault.inflasi
         this.inputJumlahKendaraanInisial.current.value = this.props.dataDefault.jumlahKendaraanInisial
-        this.inputJumlahKonektor.current.value = this.props.dataDefault.jumlahKonektor
+        this.inputSubsidiEnergi.current.value = this.props.dataDefault.subsidiEnergi
+        
         this.inputKapasitasKbl.current.value = this.props.dataDefault.kapasitasKbl
         this.inputPertumbuhanKblPerTahun.current.value = this.props.dataDefault.pertumbuhanKbl
         this.inputPph.current.value = this.props.dataDefault.pph
         this.inputRasioSpklu.current.value = this.props.dataDefault.rasioSpklu
         this.inputRugiDayaPendukung.current.value = this.props.dataDefault.rugiDayaPendukung
-        
+        this.inputJumlahDispenser.current.value = this.props.dataDefault.jumlahDispenser
+
         this.setState({
           biayaKelistrikan: this.props.dataDefault.biayaPekerjaanKelistrikan,
           biayaSipil: this.props.dataDefault.biayaPekerjaanSipil,
@@ -104,10 +110,27 @@ class index extends React.Component{
     })
   }
 
+  // componentDidUpdate(prevProps){
+  //   if(prevProps != this.props){
+  //     this.setState({
+  //       biayaEvse: this.props.dataDefault.hargaEVSE,
+  //       biayaSewaLahan: this.props.dataDefault.biayaSewaLahan
+  //     })
+      
+  //     this.inputRasioSpklu.current.value = this.props.dataDefault.rasioSpklu
+  //     this.inputHargaJualPln.current.value = this.props.dataDefault.hargaJualPln
+  //     this.inputHargaJualKonsumen.current.value = this.props.dataDefault.hargaJualKonsumen
+  //     // console.log(this.props.dataDefault.biayaSewaLahan)
+  //     // console.log(this.inputBiayaSewaLahan.current)
+  //     this.inputBiayaSewaLahan.current.value = this.props.dataDefault.biayaSewaLahan
+  //   } 
+  // }
+
   runSimulasi(type, isGetCsv){
     let pph = this.inputPph.current.value
     let inflasi = this.inputInflasi.current.value
     let discountRate = this.inputDiscountRate.current.value
+    let subsidiEnergi = this.inputSubsidiEnergi.current.value
     let jumlahKendaraanInisial = this.inputJumlahKendaraanInisial.current.value
     let biayaEvse = this.inputBiayaEvse.current.value
     let biayaKelistrikan = this.inputBiayaKelistrikan.current.value
@@ -116,19 +139,6 @@ class index extends React.Component{
     let hargaJualKonsumen = this.inputHargaJualKonsumen.current.value
     let pertumbuhanKblPerTahun = this.inputPertumbuhanKblPerTahun.current.value
     let rasioSpklu = this.inputRasioSpklu.current.value
-    
-    let jumlahKonektor = this.inputJumlahKonektor.current.value
-    let kwhPerKonektor = []
-    let itemJumlahKonektor = document.getElementsByClassName("kwh-jmk-chl")
-    for(let i = 0;i<itemJumlahKonektor.length;i++){
-      let itemValue = parseInt(itemJumlahKonektor[i].value)
-      let json = {}
-      json.no = i + 1
-      json.value = itemValue
-      kwhPerKonektor.push(json)
-    }
-    
-    let dayaMaksimum = this.inputDayaMaksimum.current.value
     let kapasitasKbl = this.inputKapasitasKbl.current.value
     let rugiDayaPendukung = this.inputRugiDayaPendukung.current.value
     let startYear = this.inputStartYear.current.value
@@ -139,6 +149,7 @@ class index extends React.Component{
     let biayaInvestasiLahan = parseFloat(biayaKelistrikan) + parseFloat(biayaSipil)
 
     /*get total daya*/
+    this.state.dayaLuaran = 0
     let elms = document.getElementsByClassName("kwh-jmk-chl")
     for(let i = 0;i<elms.length;i++){
       let val = elms[i].value
@@ -159,6 +170,7 @@ class index extends React.Component{
     jsonObjectEkonomi.jumlahKendaraanInisial = jumlahKendaraanInisial
     jsonObjectEkonomi.biayaSpklu = biayaSpklu
     jsonObjectEkonomi.biayaInvestasiLahan = biayaInvestasiLahan
+    jsonObjectEkonomi.subsidiEnergi = subsidiEnergi
 
     /*set parameter bisnis json*/
     jsonObjectBisnis.hargaJualPln = hargaJualPln
@@ -169,9 +181,11 @@ class index extends React.Component{
     jsonObjectBisnis.penggunaanEvsePerJam = penggunaanEvse
 
     /*set parameter teknis json*/
-    jsonObjectTeknis.jumlahKonektor = jumlahKonektor
-    jsonObjectTeknis.kwhPerKonektor = kwhPerKonektor
-    jsonObjectTeknis.dayaMaksimum = dayaMaksimum
+    let dataKonektor = this.getDataInputKonektor()
+    let totalDayaLuaran = dataKonektor.totalDayaLuaran
+    jsonObjectTeknis.jumlahKonektor = dataKonektor.jumlahKonektor
+    jsonObjectTeknis.kwhPerKonektor = dataKonektor.konektor
+    // jsonObjectTeknis.dayaMaksimum = 0
     jsonObjectTeknis.kapasitasKbl = kapasitasKbl
     jsonObjectTeknis.rugiDayaPendukung = rugiDayaPendukung
 
@@ -226,11 +240,11 @@ class index extends React.Component{
         isValid = false
         
         let prt = inputEachKonektor[i].parentElement.parentElement
-        let child = prt.children[1]
+        let child = prt.children[2]
         child.style.display = "block"
       }else{
         let prt = inputEachKonektor[i].parentElement.parentElement
-        let child = prt.children[1]
+        let child = prt.children[2]
         child.style.display = "none"
       }
     }
@@ -244,7 +258,6 @@ class index extends React.Component{
         isValid = false
       }
     }
-    
 
     if(!isValid){
       let desc = "<div>Pastikan semua form data pada <span class='bold'>kondisi ekonomi</span>, "+ 
@@ -265,105 +278,127 @@ class index extends React.Component{
       }
     }
 
-    if(!isGetCsv){
-      this.setState({isLoad: true})
-      axios.post("/api/calculate", jsonObject).then(res => {
-            let optimize = true
-            let isOptimizing = false
+    /*validation perkalian*/
+    let xa = rasioSpklu * kapasitasKbl
+    let xb = this.state.dayaLuaran * penggunaanEvse
+    // console.log("total daya luaran : "+this.state.dayaLuaran)
+    if(xa > xb){
+      let desc = "hasil <span class='bold'>rasio spklu : bev * Kapasitas pengisian 1 kendaraan listrik</span> tidak boleh lebih dari "
+                +"hasil <span class='bold'>Total daya luaran EVSE * Durasi penggunaan EVSE / hari</span>"
+      this.setState({
+        alertBase: <Alert alertDescription={desc} okAlert={this.hideAlert}/>
+      })
 
-            /*optimze run validation*/
-            if(type == "optimize"){
-              let typeOptimize = this.inputOptimizeType.current.value
-              let u = parseFloat(rasioSpklu)
-              let q = parseFloat(hargaJualPln)
-              let n = parseFloat(hargaJualKonsumen)
-              let g = parseFloat(pertumbuhanKblPerTahun)
-              let k = parseFloat(kapasitasKbl)
-              let p = this.state.dayaLuaran
-              let d = parseFloat(penggunaanEvse)
-              let l = parseFloat(rugiDayaPendukung)
-              let irr = parseFloat(res.data.data.irr)
-              let npv = parseFloat(res.data.data.npv)
-              let pp = parseFloat(res.data.data.pprd)
-              
-              let gapYear =  parseInt(1) + (finishYear - startYear)
-              if(typeOptimize == 'a' || typeOptimize == 'b' || typeOptimize == 'c'){
-                optimize = optzNpvMaksimum(k,p,d,u,q,n,g, gapYear, npv, parseFloat(discountRate),irr, pp)
-                isOptimizing = true
-
-                if(!optimize){
-                    let desc = "Hasil optimasi tidak solutif"
-                    this.setState({
-                      alertBase: <Alert alertDescription={desc} okAlert={this.hideAlert}/>
-                    })
-                }
-              }
-
-              if(typeOptimize = 'd'){
-                optimize = optzRasioMinimumSPKLUBEV(k,p,d,u,q,n,g, gapYear, npv, parseFloat(discountRate),irr, pp)
-                isOptimizing = true
-
-                if(!optimize){
-                    let desc = "Hasil optimasi tidak solutif"
-                    this.setState({
-                      alertBase: <Alert alertDescription={desc} okAlert={this.hideAlert}/>
-                    })
-                }
-              }
-
-              if(typeOptimize = 'e'){
-                optimize = optzRasiohargalistrikPLNmaksimum(k,p,d,u,q,n,g, gapYear, npv, parseFloat(discountRate),irr, pp)
-                isOptimizing = true
-
-                if(!optimize){
-                    let desc = "Hasil optimasi tidak solutif"
-                    this.setState({
-                      alertBase: <Alert alertDescription={desc} okAlert={this.hideAlert}/>
-                    })
-                }
-              }
-
-              if(typeOptimize = 'f'){
-                optimize = optzRasioTarifJualSPKLUMinimum(k,p,d,u,q,n,g, gapYear, npv, parseFloat(discountRate),irr, pp)
-                isOptimizing = true
-
-                if(!optimize){
-                    let desc = "Hasil optimasi tidak solutif"
-                    this.setState({
-                      alertBase: <Alert alertDescription={desc} okAlert={this.hideAlert}/>
-                    })
-                }
-              }
-
-              if(typeOptimize = 'g'){
-                optimize = optzBiayaSewaLahanMaksimum(k,p,d,u,q,n,g, gapYear, npv, parseFloat(discountRate),irr, pp)
-                isOptimizing = true
-
-                if(!optimize){
-                    let desc = "Hasil optimasi tidak solutif"
-                    this.setState({
-                      alertBase: <Alert alertDescription={desc} okAlert={this.hideAlert}/>
-                    })
-                }
-              }
-            }else{
-              isOptimizing = false
-            }
-
-            this.setState({
-              data: res.data,
-              discountRate: discountRate,
-              isLoad: false,
-              isOptimize: isOptimizing,
-              isOptimaziSolutif : optimize
-            })
+      return false
+    }
+    
+    if(type == "optimize"){
+      let typeOptimize = this.inputOptimizeType.current.value
+      if(typeOptimize == ""){
+        let desc = "Type optimize belum dipilih"
+        this.setState({
+          alertBase: <Alert alertDescription={desc} okAlert={this.hideAlert}/>
         })
+        return false
       }else{
-        axios.post("/api/calculate/excel", jsonObject).then(res => {
-          window.open(res.data.data)
+        this.setState({
+          isOptimize: true,
         })
       }
     }
+
+    if(!isGetCsv){
+      this.setState({isLoad: true})
+      if(type == "optimize"){
+        /*get variable type optimize*/
+        let typeOptimize = this.inputOptimizeType.current.value
+        let variable = "harga-evse"
+        choicesOptimize.map(dt => {
+          if(typeOptimize == dt.id){
+            variable = dt.name
+          }
+        })
+
+        this.setState({isOptimize: true, typeOptimize: typeOptimize})
+        axios.post("/api/calculate?optimize=true&typeOptimize="+variable, jsonObject).then(res => {
+
+          /*
+          k : kapasitas pengisian kendaraan
+          p : total daya luara evse
+          d : durasi penggunaan evse / hari
+          u : rasio spklu : bev
+          q : rasio harga beli listrik
+          n : rasio harga jual listrik
+          g : pertumbuhan tahunan kendaraan 
+          gapYear, 
+          npv, discountRate, irr, pp
+          */
+          let outPutRequest = res.data.data.requestCalculate
+          let k = outPutRequest.parameterTeknis.kapasitasKbl
+          let p = totalDayaLuaran
+          let d = outPutRequest.parameterBisnis.penggunaanEvsePerJam
+          let u = outPutRequest.parameterBisnis.rasioSpklu
+          let q = outPutRequest.parameterBisnis.hargaJualPln
+          let n = outPutRequest.parameterBisnis.hargaJualKonsumen
+          let g = outPutRequest.parameterBisnis.pertumbuhanKblPerTahun
+          let npv = res.data.data.responseCalculate.npv
+          let irr = res.data.data.responseCalculate.irr
+          let pp = res.data.data.responseCalculate.pprd
+
+          let isSolutif = true
+          if(typeOptimize == "b"){
+            isSolutif = optzNpvMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
+          }else if(typeOptimize == "d"){
+            isSolutif = optzRasioMinimumSPKLUBEV(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
+          }else if(typeOptimize == "e"){
+            isSolutif = optzRasiohargalistrikPLNmaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
+          }else if(typeOptimize == "f"){
+            isSolutif = optzRasioTarifJualSPKLUMinimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
+          }else if(typeOptimize == "g"){
+            isSolutif = optzBiayaSewaLahanMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
+          }
+
+          if(!isSolutif){
+            this.setState({
+              data: null,
+              isLoad: false,
+              alertBase: <Alert alertDescription={"hasil optimize tidak solutif"} okAlert={this.hideAlert}/>
+            })
+          }else{
+            this.setState({
+              data: res.data.data,
+              discountRate: discountRate,
+              requestCalculate: res.data.data.requestCalculate,
+              isLoad: false,
+              hideOptimize: false
+            })
+          }
+        }).catch(err => {
+          this.setState({
+            data: null,
+            isLoad: false,
+            alertBase: <Alert alertDescription={"hasil optimize diluar yang dapat dihitung"} okAlert={this.hideAlert}/>
+          })
+        })
+      }else{
+        this.setState({isOptimize: false, typeOptimize: null})
+        axios.post("/api/calculate", jsonObject).then(res => {
+          this.setState({
+            data: res.data.data,
+            discountRate: discountRate,
+            requestCalculate: res.data.data.requestCalculate,
+            isLoad: false,
+            hideOptimize: false
+          })
+        })
+      }
+    }else{
+      let par = (!this.state.isOptimize) ? jsonObject : this.state.requestCalculate
+      axios.post("/api/calculate/excel", par).then(res => {
+        window.location.href = res.data.data
+      })
+    }
+  }
     
 
   hideAlert(){
@@ -403,6 +438,74 @@ class index extends React.Component{
     })
   }
 
+  hideOptimizeAction(){
+    this.setState({
+      hideOptimize: true
+    })
+  }
+
+  getDataInputKonektor(){
+    let ipc = document.getElementsByClassName("ipk-cd-prds")
+    let jumlahKonektor = 0
+    let totalDaya = 0
+    let joArr = []
+    
+    for(let i = 0;i<ipc.length;i++){
+      let prt = ipc[i].parentElement.parentElement.parentElement
+      let chld = prt.children[1].children
+      let jo = {}
+      jo.evse = parseInt(1) + i
+
+      let arrJo = []
+      for(let ii = 0;ii<chld.length;ii++){
+        let valData = chld[ii].children[1].children[1].value
+        let joKonektor = {}
+        joKonektor.no = parseInt(1) + i
+        joKonektor.value = valData
+        arrJo.push(joKonektor)
+        
+        /*set jumlah konektor*/
+        jumlahKonektor++
+        totalDaya += parseInt(valData)
+      }
+
+      jo.konektor = arrJo
+      joArr.push(jo)
+    }
+
+    let data = {}
+    data.jumlahKonektor = jumlahKonektor
+    data.konektor       = joArr
+    data.totalDayaLuaran = totalDaya
+    return data
+  }
+
+  copyOptimize(type, val){
+    if(type == "harga evse"){
+      this.setState({
+        biayaEvse: val
+      })
+    }
+    
+    if(type == "biaya sewa lahan"){
+      this.setState({
+        biayaSewaLahan: val
+      })
+    }
+
+    if(type == "rasio spklu"){
+      this.inputRasioSpklu.current.value = val
+    }
+
+    if(type == "harga jual pln"){
+      this.inputHargaJualPln.current.value = val
+    }
+
+    if(type == "harga jual konsumen"){
+      this.inputHargaJualKonsumen.current.value = val
+    }
+  }
+
   render(){
       return (
         <div>
@@ -420,6 +523,8 @@ class index extends React.Component{
             :
               ""
           }
+
+          <div id="demo"/>
           
           <div ref={this.baseKalkulator} id="base-kalkulator" style={{display: "none"}}>
             <InputBase
@@ -428,6 +533,7 @@ class index extends React.Component{
                 inputBiayaKelistrikan={this.inputBiayaKelistrikan}
                 inputBiayaSipil={this.inputBiayaSipil}
                 inputDiscountRate={this.inputDiscountRate}
+                inputSubsidiEnergi={this.inputSubsidiEnergi}
                 inputHargaJualKonsumen={this.inputHargaJualKonsumen}
                 inputHargaJualPln={this.inputHargaJualPln}
                 inputInflasi={this.inputInflasi}
@@ -435,7 +541,9 @@ class index extends React.Component{
                 inputPertumbuhanKblPerTahun={this.inputPertumbuhanKblPerTahun}
                 inputRasioSpklu={this.inputRasioSpklu}
                 inputJumlahKonetor={this.inputJumlahKonektor}
-                inputDayaMaksimum={this.inputDayaMaksimum}
+                jumlahKonektorData={this.props.dataDefault.jumlahKonektor}
+                inputJumlahDispenser={this.inputJumlahDispenser}
+                // inputDayaMaksimum={this.inputDayaMaksimum}
                 inputKapasitasKbl={this.inputKapasitasKbl}
                 inputRugiDayaPendukung={this.inputRugiDayaPendukung}
                 inputBiayaSewaLahan={this.inputBiayaSewaLahan}
@@ -458,9 +566,13 @@ class index extends React.Component{
                 inputOptimizeType={this.inputOptimizeType}
                 discountRate={this.state.discountRate}
                 isLoad={this.state.isLoad}
+                hideOptimize={this.state.hideOptimize}
+                hideOptimizeAction={this.hideOptimizeAction}
                 data={this.state.data}
                 isOptimize={this.state.isOptimize}
+                typeOptimize={this.state.typeOptimize}
                 tsOptimizeSolutif={this.state.isOptimaziSolutif}
+                copyOptimize={this.copyOptimize}
             />
           </div>
           
@@ -471,7 +583,7 @@ class index extends React.Component{
 
 const mapStateToProps = state => {
   return{
-    dataDefault : state.defaultParameter
+    dataDefault : state
   }
 }
 
