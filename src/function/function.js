@@ -90,8 +90,8 @@ export function optzNpvMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
     let halfPp = 3.5
 
     if(u < 1) isOptimasiSolutif = false
-    if(0.8 < q && q > 2) isOptimasiSolutif = false
-    if(n > 1.5) isOptimasiSolutif = false
+    // if(0.8 < q && q > 2) isOptimasiSolutif = false
+    // if(n > 1.5) isOptimasiSolutif = false
     if(0 > g) isOptimasiSolutif = false
     if(u*k > p*d) isOptimasiSolutif = false
     if(pp > halfPp) isOptimasiSolutif = false
@@ -105,8 +105,8 @@ export function optzRasioMinimumSPKLUBEV(k, p, d, u, q, n, g, npv, discountRate,
     let halfPp = 3.5
 
     if(u < 1) isOptimasiSolutif = false
-    if(0.8 < q && q > 2) isOptimasiSolutif = false
-    if(n > 1.5) isOptimasiSolutif = false
+    // if(0.8 < q && q > 2) isOptimasiSolutif = false
+    // if(n > 1.5) isOptimasiSolutif = false
     if(u*k > p*d) isOptimasiSolutif = false
     if(pp > halfPp) isOptimasiSolutif = false
     if(irr < discountRate) isOptimasiSolutif = false
@@ -119,7 +119,7 @@ export function optzRasiohargalistrikPLNmaksimum(k, p, d, u, q, n, g, npv, disco
     let halfPp = 3.5
 
     if(u < 1) isOptimasiSolutif = false
-    if(n > 1.5) isOptimasiSolutif = false
+    // if(n > 1.5) isOptimasiSolutif = false
     if(u*k > p*d) isOptimasiSolutif = false
     if(pp > halfPp) isOptimasiSolutif = false
     if(irr < discountRate) isOptimasiSolutif = false
@@ -131,7 +131,7 @@ export function optzRasioTarifJualSPKLUMinimum(k, p, d, u, q, n, g, npv, discoun
     let halfPp = 3.5
     
     if(u < 1) isOptimasiSolutif = false
-    if(0.8 < q && q > 2) isOptimasiSolutif = false
+    // if(0.8 < q && q > 2) isOptimasiSolutif = false
     if(u*k > p*d) isOptimasiSolutif = false
     if(pp > halfPp) isOptimasiSolutif = false
     if(irr < discountRate) isOptimasiSolutif = false
@@ -144,13 +144,19 @@ export function optzBiayaSewaLahanMaksimum(k, p, d, u, q, n, g, npv, discountRat
     let halfPp = 3.5
     
     if(u < 1) isOptimasiSolutif = false
-    if(0.8 < q && q > 2) isOptimasiSolutif = false
-    if(n > 1.5) isOptimasiSolutif = false
+    // console.log(isOptimasiSolutif+ "1")
+    // if(0.8 < q && q > 2) isOptimasiSolutif = false
+    // console.log(isOptimasiSolutif+ "2")
+    // if(n > 1.5) isOptimasiSolutif = false
+    // console.log(isOptimasiSolutif+ "3")
     if(u*k > p*d) isOptimasiSolutif = false
+    // console.log(isOptimasiSolutif+ "4")
     if(pp > halfPp) isOptimasiSolutif = false
+    // console.log(isOptimasiSolutif+ "5")
     if(irr < discountRate) isOptimasiSolutif = false
+    // console.log(isOptimasiSolutif+ "6")
     if(npv < 0) isOptimasiSolutif = false
-
+    // console.log(isOptimasiSolutif+ "7")
     return isOptimasiSolutif;
 }
 

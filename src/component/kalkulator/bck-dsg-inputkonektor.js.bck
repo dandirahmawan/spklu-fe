@@ -1,0 +1,48 @@
+div className="main-font-size">Jumlah Konektor dispenser 1</div>
+                                
+                                {konektorDispenser}
+
+                                <div style={{marginTop: "5px", marginBottom: "10px"}}>
+                                    <div>
+                                        <div style={{display: "flex", alignItems: "center"}}>
+                                            <div className="main-border base-input-form">
+                                                <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faPlus}/>
+                                                <select placeholder="jumlah konektor" style={{border: "none", width: "100%", boxSizing: "border-box"}} 
+                                                        onChange={this.countConnector} 
+                                                        ref={this.props.inputJumlahKonetor}>
+                                                    <option style={{color: "#CCC", display: "none"}}>pilih jumlah konektor</option>
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                    <option>6</option>
+                                                    <option>7</option>
+                                                    <option>8</option>
+                                                    <option>9</option>
+                                                    <option>10</option>
+                                                </select>
+                                                {/* <input type="text" onKeyUp={this.props.keyUpInput} onChange={this.countConnector} ref={this.props.inputJumlahKonetor} placeholder="Jumlah Konektor" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input> */}
+                                            </div>
+                                            <div style={{fontSize: "12px", marginLeft: "5px"}}>
+                                                <a onClick={(e) => this.infoInput(e, "jumlah konektor")}>
+                                                    <FontAwesomeIcon icon={faQuestionCircle}/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {
+                                        // (this.state.jumlahKonektor.length > 0)
+                                        // ?
+                                        //     <div style={{padding: "10px", paddingLeft: "20px", paddingBottom: "0px", paddingTop: "3px"}}>
+                                        //         {inputJumlahKonektor}
+                                        //     </div>
+                                        // :
+                                        //     ""
+                                    }
+                                    
+                                    <div className="base-alt-ip base-alt-ip-1">
+                                        <FontAwesomeIcon icon={faInfoCircle}/> Jumlah konektor belum diisi
+                                    </div>
+                                </div>

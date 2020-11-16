@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnchor, faBalanceScaleLeft, faClock, faCoins, faCopy, faDollarSign, faLightbulb, faLowVision } from '@fortawesome/free-solid-svg-icons';
+import { faAnchor, faBalanceScaleLeft, faClock, faCoins, faCopy, faDollarSign, faLightbulb, faLowVision, faPercent } from '@fortawesome/free-solid-svg-icons';
 import CurrencyFormat from 'react-currency-format'
 import {choicesOptimize} from '../../const/const'
 import lib from 'react-year-picker';
@@ -27,6 +27,10 @@ class indikator_kunci extends React.Component{
                     let val = null
                     if(dt.id == "b"){
                         val = this.props.dataRequest.kondisiEkonomi.biayaSpklu
+                    }
+
+                    if(dt.id == "c"){
+                        val = this.props.dataRequest.kondisiEkonomi.subsidiEnergi
                     }
 
                     if(dt.id == "d"){
@@ -87,6 +91,11 @@ class indikator_kunci extends React.Component{
             this.props.setDefaultValueByName("harga evse", val)
         }
 
+        if(this.props.typeOptimize == "c"){
+            let val = this.props.dataRequest.kondisiEkonomi.subsidiEnergi
+            this.props.setDefaultValueByName("subsidi energi", val)
+        }
+
         if(this.props.typeOptimize == "d"){
             let val = this.props.dataRequest.parameterBisnis.rasioSpklu
             this.props.setDefaultValueByName("rasio spklu", val)
@@ -109,21 +118,41 @@ class indikator_kunci extends React.Component{
 
         let elmTxyCpy = document.getElementsByClassName("txt-cpy")
         for(let i = 0;i<elmTxyCpy.length;i++){
-            if(this.props.typeOptimize == "b"){
+            if(this.props.typeOptimize == "b" || this.props.typeOptimize == "c"){
                 this.collapseInputMenu("collapseOne")
-                if(elmTxyCpy[i].getAttribute("attr") == "evse-txt-cpy"){
-                    let ib = document.getElementById("input-form-base")
-                    ib.scrollTop = 0
-                    ib.style.overflowY = "hidden"
-                    elmTxyCpy[i].style.display = "block"
-                    setTimeout(() => {
-                        elmTxyCpy[i].style.display = "none"
-                        ib.style.overflowY = "auto"
-                    }, 1500)
+                
+                if(this.props.typeOptimize == "b"){
+                    if(elmTxyCpy[i].getAttribute("attr") == "evse-txt-cpy"){
+                        let ib = document.getElementById("input-form-base")
+                        ib.scrollTop = 0
+                        ib.style.overflowY = "hidden"
+                        elmTxyCpy[i].style.display = "block"
+                        setTimeout(() => {
+                            elmTxyCpy[i].style.display = "none"
+                            ib.style.overflowY = "auto"
+                        }, 1500)
+                    }
+                }
+               
+                if(this.props.typeOptimize == "c"){
+                    if(elmTxyCpy[i].getAttribute("attr") == "sen-txt-cpy"){
+                        let ib = document.getElementById("input-form-base")
+                        ib.scrollTop = 0
+                        ib.style.overflowY = "hidden"
+                        elmTxyCpy[i].style.display = "block"
+                        setTimeout(() => {
+                            elmTxyCpy[i].style.display = "none"
+                            ib.style.overflowY = "auto"
+                        }, 1500)
+                    }
                 }
             }
 
-            if(this.props.typeOptimize == "d" || this.props.typeOptimize == "e" || this.props.typeOptimize == "f" || this.props.typeOptimize == "g"){
+            if(this.props.typeOptimize == "d" || 
+                this.props.typeOptimize == "e" || 
+                this.props.typeOptimize == "f" || 
+                this.props.typeOptimize == "g")
+            {
                 this.collapseInputMenu("collapseTwo")
                 let ib = document.getElementById("input-form-base")
                 ib.style.overflowY = "hidden"
@@ -265,6 +294,7 @@ class indikator_kunci extends React.Component{
                             <div style={{display: "flex"}}>
                                 <div style={{marginRight: "10px"}}>
                                     {(this.props.typeOptimize == "b" || this.props.typeOptimize == "g") ? <FontAwesomeIcon style={{fontSize: "30px"}} icon={faCoins}/> : ""}
+                                    {(this.props.typeOptimize == "c") ? <FontAwesomeIcon style={{fontSize: "30px"}} icon={faPercent}/> : ""}
                                     {(this.props.typeOptimize == "d") ? <FontAwesomeIcon style={{fontSize: "30px"}} icon={faBalanceScaleLeft}/> : ""}
                                     {/* <FontAwesomeIcon style={{fontSize: "30px"}} icon={faLightbulb}/> */}
                                 </div>
@@ -319,7 +349,7 @@ class indikator_kunci extends React.Component{
                                                 </div>
                                             :
                                                 <div className="main-font-size">
-                                                    {this.state.valueOptimize}
+                                                    {this.state.valueOptimize} {(this.props.typeOptimize == "c" ? "%" : "")}
                                                 </div>
                                     }
                                 </div>

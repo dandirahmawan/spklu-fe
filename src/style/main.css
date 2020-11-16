@@ -307,3 +307,29 @@ select{
     border-radius: 0px;
     display: none;
 }
+
+.fx-loader-bse{
+    padding: 15px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 10000;
+    border-radius: 4px;
+    display: none;
+}
+
+.year-picker{
+    cursor: pointer;
+}
+
+.input-wrapper{
+    cursor: pointer;
+}
+
+.year-input{
+    cursor: pointer !important;
+}
+
+.input-icon-calendar{
+    cursor: auto !important;
+}

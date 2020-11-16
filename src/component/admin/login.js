@@ -25,7 +25,7 @@ class login extends Component{
         if(userName == 0 || password == 0){
             this.setState({
                 alertBase: <Alert okAlert={this.hideAlert} 
-                                alertDescription={"Pastikan and mengisi data <span class='bold'>username</span><br/>dan <span class='bold'>password</span>"}/>
+                                alertDescription={"Pastikan anda mengisi data <span class='bold'>username</span><br/>dan <span class='bold'>password</span>"}/>
             })
         }else{
             let jo = {}
@@ -43,7 +43,7 @@ class login extends Component{
                     if(hd.status == 400){
                         this.setState({
                             alertBase: <Alert okAlert={this.hideAlert} 
-                                            alertDescription={"Username yang anda masukan tidak terdaftar"}/>
+                                            alertDescription={"Username atau kata sandi yang anda masukan salah"}/>
                         })
                     }
                 }

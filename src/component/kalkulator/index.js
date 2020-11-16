@@ -9,7 +9,10 @@ import {numberOnlyInput, optzBiayaSewaLahanMaksimum, optzNpvMaksimum, optzRasioh
 import { connect } from 'react-redux';
 import { setDefaultValue } from '../../redux/action';
 import LoadGif from '../../image/Pulse-1s-200px.gif';
+import LoadRoll from '../../image/Rolling-1s-45px.gif'
 import { choicesOptimize } from '../../const/const';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileExcel, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 class index extends React.Component{
 
@@ -346,7 +349,7 @@ class index extends React.Component{
           let pp = res.data.data.responseCalculate.pprd
 
           let isSolutif = true
-          if(typeOptimize == "b"){
+          if(typeOptimize == "b" || typeOptimize == "c"){
             isSolutif = optzNpvMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
           }else if(typeOptimize == "d"){
             isSolutif = optzRasioMinimumSPKLUBEV(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
@@ -393,9 +396,16 @@ class index extends React.Component{
         })
       }
     }else{
+      let elm = document.getElementsByClassName("fx-loader-bse")[0]
+      elm.style.display = "flex"
+
       let par = (!this.state.isOptimize) ? jsonObject : this.state.requestCalculate
       axios.post("/api/calculate/excel", par).then(res => {
-        window.location.href = res.data.data
+        // console.log(res.data.data)
+        // window.location.href = res.data.data
+        setTimeout(() => {
+          elm.style.display = "none"
+        }, 1500)
       })
     }
   }
@@ -504,6 +514,15 @@ class index extends React.Component{
     if(type == "harga jual konsumen"){
       this.inputHargaJualKonsumen.current.value = val
     }
+
+    if(type == "subsidi energi"){
+      this.inputSubsidiEnergi.current.value = val
+    }
+  }
+
+  hideFxBse(){
+    let elm = document.getElementsByClassName("fx-loader-bse")[0]
+    elm.style.display = "none"
   }
 
   render(){
@@ -576,6 +595,16 @@ class index extends React.Component{
             />
           </div>
           
+          <div className="fx-loader-bse main-border shadow" style={{background: "#000", color: "#FFF", alignItems: "center"}}>
+            <img src={LoadRoll} style={{width: "20px"}}/>&nbsp;&nbsp;&nbsp;
+            <div>
+              <FontAwesomeIcon icon={faFileExcel} style={{color: "green"}}/>&nbsp;&nbsp;
+              <span>generate to excel...</span>
+            </div>
+            <div style={{marginLeft: "20px", borderLeft: "1px solid #CCC", paddingLeft: "10px"}}>
+              <a onClick={this.hideFxBse}><FontAwesomeIcon icon={faTimes} style={{color: "FFF"}}/></a>
+            </div>
+          </div>
         </div>
       )
   }

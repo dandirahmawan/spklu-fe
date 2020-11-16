@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Axios from 'axios'
 import { connect } from 'react-redux'
 import { setDefaultValue } from '../../redux/action'
+import LoadRoll from '../../image/Rolling-1s-45px.gif'
 
 class parameter_teknis_form extends React.Component {
 
@@ -13,7 +14,8 @@ class parameter_teknis_form extends React.Component {
             jumlahEvse : [],
             dataKonektor : [],
             kapasitasKbl : 0,
-            rugiDayaPendukung: 0
+            rugiDayaPendukung: 0,
+            isSaving : false
         }
 
         this.changeKapasitasKbl = this.changeKapasitasKbl.bind(this)
@@ -107,10 +109,25 @@ class parameter_teknis_form extends React.Component {
         params.push(rugiDayaPendukung)
         params.push(dataKonektor)
         
+        this.setState({
+            isSaving: true
+        })
+
         Axios.post("/api/admin/form-values", params).then(res => {
             let resp = res.data
             let data = resp.data
             this.props.setDataDefault(data)
+
+            this.setState({
+                isSaving: false
+            })
+
+            let elm = document.getElementsByClassName("fx-loader-bse")[0]
+            elm.style.display = "flex"
+
+            setTimeout(()=> {
+                elm.style.display = "none"
+            }, 2000)
         })
     }
 
@@ -234,9 +251,19 @@ class parameter_teknis_form extends React.Component {
                         <tr>
                             <td className="main-font-size bold" style={{textAlign: "right"}}></td>
                             <td>&nbsp;&nbsp;&nbsp;
-                                <button onClick={this.save} className="btn-primary main-font-size bold" style={{padding: "10px", marginTop: "10px"}}>
-                                    <FontAwesomeIcon icon={faSave}/> Simpan Perubahan
-                                </button>
+                                {
+                                    (!this.state.isSaving)
+                                    ?
+                                        <button onClick={this.save} className="btn-primary main-font-size bold" style={{padding: "10px", marginTop: "10px"}}>
+                                            <FontAwesomeIcon icon={faSave}/> Simpan Perubahan
+                                        </button>
+                                    :
+                                        <button 
+                                            className="btn-primary main-font-size bold" 
+                                            style={{padding: "5px", marginTop: "10px", width: "120px", opacity: "0.8"}}>
+                                            <img src={LoadRoll} style={{width: "20px"}}/>
+                                        </button>
+                                }
                             </td>
                         </tr>
                     </tbody>

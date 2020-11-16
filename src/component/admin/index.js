@@ -8,6 +8,8 @@ import axios from 'axios'
 import LoadGif from '../../image/Pulse-1s-200px.gif'
 import Login from './login'
 import { getCookieToken, getCookieUsername } from '../../function/function'
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class index extends React.Component {
 
@@ -65,6 +67,12 @@ class index extends React.Component {
                             </Fragment>
                 }
                 
+                <div className="fx-loader-bse main-border shadow" style={{background: "#000", color: "#FFF", alignItems: "center"}}>
+                    <div>
+                        <FontAwesomeIcon icon={faCheckCircle} style={{color: "green", fontSize: "14px"}}/>&nbsp;&nbsp;
+                        <span>data default berhasil diubah</span>
+                    </div>
+                </div>
             </Fragment>
         )
     }

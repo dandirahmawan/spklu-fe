@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { faClock, faCog, faCoins, faMemory, faPercent, faPlus, faPlusCircle, faSave, faSdCard } from '@fortawesome/free-solid-svg-icons'
+import { faClock, faCog, faCoins, faMemory, faPercent, faPlus, faPlusCircle, faSave, faSdCard, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CurrencyFormat from 'react-currency-format'
 import { connect } from 'react-redux'
 import { setDefaultValue, setParameterBisnis } from '../../redux/action'
 import Axios from 'axios'
+import LoadRoll from '../../image/Rolling-1s-45px.gif'
 
 class parameter_bisnis_form extends Component {
 
@@ -18,7 +19,8 @@ class parameter_bisnis_form extends Component {
             durasiPenggunaan: "",
             biayaSewaLahan: "",
             jumlahEvse: "",
-            dataKonektor: []
+            dataKonektor: [],
+            isSaving: false
         }
 
         this.changeEvse = this.changeEvse.bind(this)
@@ -126,9 +128,24 @@ class parameter_bisnis_form extends Component {
         params.push(jumlahEvse)
         params.push(jumlahKonektor)
 
+        this.setState({
+            isSaving: true
+        })
+
         Axios.post("/api/admin/form-values", params).then(res => {
             let resp = res.data
             this.props.setDataDefault(resp.data)
+
+            this.setState({
+                isSaving: false
+            })
+
+            let elm = document.getElementsByClassName("fx-loader-bse")[0]
+            elm.style.display = "flex"
+
+            setTimeout(()=> {
+                elm.style.display = "none"
+            }, 2000)
         })
     }
 
@@ -275,9 +292,21 @@ class parameter_bisnis_form extends Component {
                         <tr>
                             <td className="main-font-size bold" style={{textAlign: "right"}}></td>
                             <td>&nbsp;&nbsp;&nbsp;
-                                <button onClick={this.save} className="btn-primary main-font-size bold" style={{padding: "10px", marginTop: "10px"}}>
-                                    <FontAwesomeIcon icon={faSave}/> Simpan Perubahan
-                                </button>
+                                {
+                                    (!this.state.isSaving)
+                                    ?
+                                        <button onClick={this.save} 
+                                            className="btn-primary main-font-size bold" 
+                                            style={{padding: "10px", marginTop: "10px"}}>
+                                            <FontAwesomeIcon icon={faSave}/> Simpan Perubahan
+                                        </button>
+                                    :
+                                        <button 
+                                            className="btn-primary main-font-size bold" 
+                                            style={{padding: "5px", marginTop: "10px", width: "120px", opacity: "0.8"}}>
+                                            <img src={LoadRoll} style={{width: "20px"}}/>
+                                        </button>
+                                }   
                             </td>
                         </tr>
                     </tbody>

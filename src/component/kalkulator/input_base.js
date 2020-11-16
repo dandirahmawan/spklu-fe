@@ -217,6 +217,12 @@ class input_base extends Component{
                                         <div className="main-border base-input-form">
                                             <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faPercent}/>
                                             <input type="text" onKeyUp={this.props.keyUpInput} ref={this.props.inputSubsidiEnergi} placeholder="Discount rate" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
+                                            <div className="txt-cpy" attr="sen-txt-cpy">
+                                                <div style={{display: "flex", alignItems: "center"}}>
+                                                    <span style={{marginTop: "2px"}}><FontAwesomeIcon icon={faChevronCircleLeft}/></span>
+                                                    &nbsp;&nbsp;&nbsp;Hasil optimasi telah disalin
+                                                </div>
+                                            </div>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
                                             <a onClick={(e) => this.infoInput(e, "discount rate")}>

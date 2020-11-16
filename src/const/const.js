@@ -37,7 +37,7 @@ export const constInfoInput = [
 export const choicesOptimize = [
     // {"id":"a", "desc": "NPV maksimum"},
     {"id":"b", "desc": "Harga EVSE maksimum", "text" : "Harga EVSE", "name":"harga-evse"},
-    // {"id":"c", "desc": "Persen subsidi energi minimum","text" : "Persen subsidi energi", "name":"persen-subsidi-energi"},
+    {"id":"c", "desc": "Persen subsidi energi minimum","text" : "Subsidi energi", "name":"subsidi-energi"},
     {"id":"d", "desc": "Rasio SPKLU:BEV minimum", "text" : "Rasio Spklu : BEV", "name":"rasio-spklu"},
     {"id":"e", "desc": "Rasio harga listrik PLN maksimum", "text" : "Rasio harga listrik PLN", "name":"rasio-harga-listrik-pln"},
     {"id":"f", "desc": "Rasio tarif jual SPKLU minimum", "text" : "Rasio tarif jual SPKLU", "name":"rasio-tarif-jual-spklu"},
