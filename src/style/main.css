@@ -106,6 +106,16 @@ select{
     cursor: pointer;
 }
 
+.btn-primary-unhover:hover{
+    padding: 7px;
+    color: #FFF;
+    background: #0095eb;
+    border: #597e9e;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
 .btn-primary:hover{
     padding: 7px;
     color: #FFF;
@@ -285,10 +295,6 @@ select{
 
 .tooltip-text{
     position: relative;
-    display: none;
-}
-
-.tooltip:hover .tooltip-text{
     display: none;
 }
 

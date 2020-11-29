@@ -1,5 +1,3 @@
-import { compose } from "redux"
-
 export function setHeightFixedPosition(element){
     let elmHeader = document.getElementById("header")
     let hh = elmHeader.offsetHeight
@@ -9,7 +7,6 @@ export function setHeightFixedPosition(element){
 }
 
 export function getCookieUsername(){
-    console.log(document.cookie)
     var c = document.cookie.split(";")
     var userId = "";
     for(var a = 0;a<c.length;a++){
@@ -19,6 +16,31 @@ export function getCookieUsername(){
         }
     }
     return userId
+}
+
+export function getCookieUserType(){
+    var c = document.cookie.split(";")
+    var rtn = "";
+    for(var a = 0;a<c.length;a++){
+        var d = c[a].split("=")
+        if(d[0].replace(" ", "") === 'usertype_tecs'){
+            rtn = d[1]
+        }
+    }
+    return rtn
+}
+
+export function getCookieUserTypeName(){
+    var c = document.cookie.split(";")
+    var rtn = "";
+    for(var a = 0;a<c.length;a++){
+        var d = c[a].split("=")
+        if(d[0].replace(" ", "") === 'usertypename_tecs'){
+            let v = d[1].split("%20").join(" ")
+            rtn = v.split("%2F").join("/")
+        }
+    }
+    return rtn
 }
 
 export function getCookieToken(){
@@ -88,47 +110,72 @@ export function currencyInput(event){
 export function optzNpvMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
     let halfPp = 3.5
+    let arrMsg = []
 
     if(u < 1) isOptimasiSolutif = false
     // if(0.8 < q && q > 2) isOptimasiSolutif = false
     // if(n > 1.5) isOptimasiSolutif = false
     if(0 > g) isOptimasiSolutif = false
-    if(u*k > p*d) isOptimasiSolutif = false
+        
+    if(u*k > p*d) {
+        arrMsg.push("hasil rasio spklu : bev * Kapasitas pengisian 1 kendaraan listrik tidak boleh lebih dari hasil Total daya luaran EVSE * Durasi penggunaan EVSE / hari")
+        isOptimasiSolutif = false
+    }
+    
     if(pp > halfPp) isOptimasiSolutif = false
     if(irr < discountRate) isOptimasiSolutif = false
     if(npv < 0) isOptimasiSolutif = false
-    return isOptimasiSolutif;
+
+    let obj = {}
+    obj.message = arrMsg
+    obj.result = isOptimasiSolutif
+    return obj;
 }
 
 export function optzRasioMinimumSPKLUBEV(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
     let halfPp = 3.5
+    let arrMsg = []
 
     if(u < 1) isOptimasiSolutif = false
     // if(0.8 < q && q > 2) isOptimasiSolutif = false
     // if(n > 1.5) isOptimasiSolutif = false
-    if(u*k > p*d) isOptimasiSolutif = false
+    if(u*k > p*d) {
+        arrMsg.push("hasil rasio spklu : bev * Kapasitas pengisian 1 kendaraan listrik tidak boleh lebih dari hasil Total daya luaran EVSE * Durasi penggunaan EVSE / hari")
+        isOptimasiSolutif = false
+    }
+
     if(pp > halfPp) isOptimasiSolutif = false
     if(irr < discountRate) isOptimasiSolutif = false
 
-    return isOptimasiSolutif;
+    
+    let obj = {}
+    obj.message = arrMsg
+    obj.result = isOptimasiSolutif
+    return obj;
 }
 
 export function optzRasiohargalistrikPLNmaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
     let halfPp = 3.5
+    let arrMsg = []
 
     if(u < 1) isOptimasiSolutif = false
     // if(n > 1.5) isOptimasiSolutif = false
     if(u*k > p*d) isOptimasiSolutif = false
     if(pp > halfPp) isOptimasiSolutif = false
     if(irr < discountRate) isOptimasiSolutif = false
-    return isOptimasiSolutif;
+
+    let obj = {}
+    obj.message = arrMsg
+    obj.result = isOptimasiSolutif
+    return obj;
 }
 
 export function optzRasioTarifJualSPKLUMinimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
     let halfPp = 3.5
+    let arrMsg = []
     
     if(u < 1) isOptimasiSolutif = false
     // if(0.8 < q && q > 2) isOptimasiSolutif = false
@@ -136,12 +183,17 @@ export function optzRasioTarifJualSPKLUMinimum(k, p, d, u, q, n, g, npv, discoun
     if(pp > halfPp) isOptimasiSolutif = false
     if(irr < discountRate) isOptimasiSolutif = false
     if(npv < 0) isOptimasiSolutif = false
-    return isOptimasiSolutif;
+    
+    let obj = {}
+    obj.message = arrMsg
+    obj.result = isOptimasiSolutif
+    return obj;
 }
 
 export function optzBiayaSewaLahanMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp){
     let isOptimasiSolutif = true
     let halfPp = 3.5
+    let arrMsg = []
     
     if(u < 1) isOptimasiSolutif = false
     // console.log(isOptimasiSolutif+ "1")
@@ -157,7 +209,11 @@ export function optzBiayaSewaLahanMaksimum(k, p, d, u, q, n, g, npv, discountRat
     // console.log(isOptimasiSolutif+ "6")
     if(npv < 0) isOptimasiSolutif = false
     // console.log(isOptimasiSolutif+ "7")
-    return isOptimasiSolutif;
+    
+    let obj = {}
+    obj.message = arrMsg
+    obj.result = isOptimasiSolutif
+    return obj;
 }
 
 export function isOnline(){
@@ -165,5 +221,28 @@ export function isOnline(){
         return true
     } else {
         return false
+    }
+}
+
+export function convertDate_dd_MMM_yyy(date){
+    var dated = new Date(date)
+    if(dated != "Invalid Date"){
+        var month = parseInt(dated.getMonth()) + 1
+        var monthName = ""
+        var date = (dated.getDate() < 10) ? "0"+dated.getDate() : dated.getDate()
+        
+        if(month == 1) monthName = "January"
+        if(month == 2) monthName = "February"
+        if(month == 3) monthName = "March"
+        if(month == 4) monthName = "April"
+        if(month == 5) monthName = "May"
+        if(month == 6) monthName = "June"
+        if(month == 7) monthName = "July"
+        if(month == 8) monthName = "August"
+        if(month == 9) monthName = "September"
+        if(month == 10) monthName = "October"
+        if(month == 11) monthName = "November"
+        if(month == 12) monthName = "December"
+        return date+" "+monthName+" "+dated.getFullYear()
     }
 }

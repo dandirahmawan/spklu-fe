@@ -8,7 +8,8 @@ class input_konektor extends Component{
         super()
         this.state = {
             konektor: [{"no":1,"value":null}],
-            jumlahKonektor: [1]
+            jumlahKonektor: [1],
+            jumlahKonektorValue: 1
         }
 
         this.changeJumlahKonektor = this.changeJumlahKonektor.bind(this)
@@ -20,7 +21,8 @@ class input_konektor extends Component{
                         if(this.props.dataDefault !== undefined && this.props.dataDefault.konektor !== undefined){
                             this.setState({
                                 konektor: this.props.dataDefault.konektor,
-                                jumlahKonektor : this.props.dataDefault.konektor
+                                jumlahKonektor : this.props.dataDefault.konektor,
+                                jumlahKonektorValue : this.props.dataDefault.konektor.length
                             })
                             
                             clearInterval(itv)
@@ -39,7 +41,8 @@ class input_konektor extends Component{
 
         this.setState({
             konektor: arr,
-            jumlahKonektor: e.target.value
+            jumlahKonektor: e.target.value,
+            jumlahKonektorValue: e.target.value
         })
     }
 
@@ -67,7 +70,7 @@ class input_konektor extends Component{
                             <input className="kwh-jmk-chl main-font-size" 
                                 value={dt.value}
                                 onChange={(e) => this.changeDaya(e, no)}
-                                type="text" placeholder="(Kwh)" 
+                                type="text" placeholder="(Kw)" 
                                 style={{width: "100%", boxSizing: "border-box"}}></input>
                         </div>
                         <div className="base-alt-ip kwh-alt-val-21" style={{marginBottom: "2px"}}>
@@ -87,7 +90,7 @@ class input_konektor extends Component{
                                     className="ipk-cd-prds"
                                     style={{border: "none", width: "100%", boxSizing: "border-box"}}
                                     onChange={this.changeJumlahKonektor}
-                                    value={this.state.jumlahKonektor}>
+                                    value={this.state.jumlahKonektorValue}>
                                 <option style={{color: "#CCC", display: "none"}}>pilih jumlah konektor</option>
                                 <option>1</option>
                                 <option>2</option>

@@ -8,8 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalculator, faFileExcel, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import LoadGif from '../../image/Pulse-1s-200px.gif'
 import { connect } from 'react-redux'
-import { setDefaultValueByName } from '../../redux/action'
-
 class main_base extends React.Component{
     
     state = {
@@ -48,7 +46,6 @@ class main_base extends React.Component{
     }
 
     setDefaultValue(n, v){
-        // this.props.setDefaultValueByName(n, v)
         this.props.copyOptimize(n, v)
     }
 
@@ -146,6 +143,7 @@ class main_base extends React.Component{
                         :
                             <div>
                                 <IndikatorKunci npv={this.props.data.responseCalculate.npv}
+                                                npvNormal={this.props.npvNormal}
                                                 isOptimize={this.props.isOptimize}
                                                 typeOptimize={this.props.typeOptimize}
                                                 dataRequest={this.props.data.requestCalculate}
@@ -158,14 +156,17 @@ class main_base extends React.Component{
                                                 />
                                 <div style={{overflow: "hidden", position: "relative", zIndex: "1", padding: "20px", paddingTop: "10px"}}>
                                     <Conclussions npv={this.props.data.responseCalculate.npv}
+                                                lastRequestParam={this.props.lastRequestParam}
                                                 irr={this.props.data.responseCalculate.irr}
                                                 mirr={this.props.data.responseCalculate.mirr}
                                                 bep={this.props.data.responseCalculate.bep}
                                                 pi={this.props.data.responseCalculate.pi}
                                                 pp={this.props.data.responseCalculate.pprd}
                                                 discountRate={this.props.discountRate}
+                                                data={this.props.data}
                                                 startYear={this.props.startYear}
                                                 finishYear={this.props.finishYear}
+                                                setDefaultValueByName={this.setDefaultValue}
                                                 />
                                     <Charts data={this.props.data.responseCalculate}
                                             startYear={this.props.startYear}
@@ -196,7 +197,7 @@ class main_base extends React.Component{
 
 const mapDispatchToProps = dispatch => {
     return{
-        setDefaultValueByName : (n, v) => dispatch(setDefaultValueByName(n, v))
+        // setDefaultValueByName : (n, v) => dispatch(setDefaultValueByName(n, v))
     }
 }
 

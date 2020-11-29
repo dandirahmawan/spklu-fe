@@ -16,7 +16,7 @@ class index extends React.Component {
     constructor(){
         super()
         this.state = {
-            section: "ekonomi",
+            section: "dashboard",
             isLoad: true
         }
 

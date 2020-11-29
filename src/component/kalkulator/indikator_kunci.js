@@ -25,6 +25,10 @@ class indikator_kunci extends React.Component{
             choicesOptimize.map(dt => {
                if(dt.id == this.props.typeOptimize){
                     let val = null
+                    if(dt.id == "a"){
+                        val = this.props.npv
+                    }
+
                     if(dt.id == "b"){
                         val = this.props.dataRequest.kondisiEkonomi.biayaSpklu
                     }
@@ -86,6 +90,11 @@ class indikator_kunci extends React.Component{
     }
 
     copyValue(){
+        if(this.props.typeOptimize == "b"){
+            let val = this.props.dataRequest.kondisiEkonomi.biayaSpklu
+            this.props.setDefaultValueByName("harga evse", val)
+        }
+        
         if(this.props.typeOptimize == "b"){
             let val = this.props.dataRequest.kondisiEkonomi.biayaSpklu
             this.props.setDefaultValueByName("harga evse", val)
@@ -221,10 +230,19 @@ class indikator_kunci extends React.Component{
                         <div>
                             <div className="bold" style={{fontSize: "15px"}}>NPV</div>
                             <div className="main-font-size">
-                                <CurrencyFormat value={this.props.npv} 
-                                                displayType={'text'} 
-                                                thousandSeparator={true} prefix={'Rp. '} 
-                                                renderText={value => <div>{value}</div>}/>
+                                {
+                                    (this.props.typeOptimize == "a")
+                                    ?
+                                        <CurrencyFormat value={this.props.npvNormal} 
+                                                        displayType={'text'} 
+                                                        thousandSeparator={true} prefix={'Rp. '} 
+                                                        renderText={value => <div>{value}</div>}/>
+                                    :
+                                        <CurrencyFormat value={this.props.npv} 
+                                                        displayType={'text'} 
+                                                        thousandSeparator={true} prefix={'Rp. '} 
+                                                        renderText={value => <div>{value}</div>}/>
+                                }
                             </div>
                         </div>
                     </div>
@@ -293,7 +311,7 @@ class indikator_kunci extends React.Component{
                             
                             <div style={{display: "flex"}}>
                                 <div style={{marginRight: "10px"}}>
-                                    {(this.props.typeOptimize == "b" || this.props.typeOptimize == "g") ? <FontAwesomeIcon style={{fontSize: "30px"}} icon={faCoins}/> : ""}
+                                    {(this.props.typeOptimize == "b" || this.props.typeOptimize == "g" || this.props.typeOptimize == "a") ? <FontAwesomeIcon style={{fontSize: "30px"}} icon={faCoins}/> : ""}
                                     {(this.props.typeOptimize == "c") ? <FontAwesomeIcon style={{fontSize: "30px"}} icon={faPercent}/> : ""}
                                     {(this.props.typeOptimize == "d") ? <FontAwesomeIcon style={{fontSize: "30px"}} icon={faBalanceScaleLeft}/> : ""}
                                     {/* <FontAwesomeIcon style={{fontSize: "30px"}} icon={faLightbulb}/> */}
@@ -302,10 +320,17 @@ class indikator_kunci extends React.Component{
                                     <div style={{fontSize: "12px", marginBottom: "3px"}}>
                                             Hasil optimasi
                                             <div className="tooltip" style={{float: "right"}}>
-                                                <button onClick={this.copyValue} 
-                                                    style={{padding: "3px", color: "#000", fontSize: "11px", borderRadius: "3px", border: "1px solid #CCC", marginTop: "-5px"}}>
-                                                    <FontAwesomeIcon icon={faCopy}/> Salin
-                                                </button>
+                                                {
+                                                    (this.props.typeOptimize != "a")
+                                                    ?
+                                                        <button onClick={this.copyValue} 
+                                                            style={{padding: "3px", color: "#000", fontSize: "11px", borderRadius: "3px", border: "1px solid #CCC", marginTop: "-5px"}}>
+                                                            <FontAwesomeIcon icon={faCopy}/> Salin
+                                                        </button>
+                                                    :
+                                                        ""
+                                                }
+                                                
 
                                                 <div className="tooltip-text main-border" 
                                                     style={{background: "#FFF", 
@@ -330,14 +355,23 @@ class indikator_kunci extends React.Component{
                                     </div>
                                     
                                     {
-                                        (this.props.typeOptimize == "b")
+                                        (this.props.typeOptimize == "b" || this.props.typeOptimize == "a")
                                         ?   
-                                            <div className="main-font-size">
-                                                <CurrencyFormat value={this.props.dataRequest.kondisiEkonomi.biayaSpklu} 
-                                                                displayType={'text'} 
-                                                                thousandSeparator={true} prefix={'Rp. '} 
-                                                                renderText={value => <div>{value}</div>}/>
-                                            </div>
+                                            (this.props.typeOptimize == "b")
+                                            ?
+                                                <div className="main-font-size">
+                                                    <CurrencyFormat value={this.props.dataRequest.kondisiEkonomi.biayaSpklu} 
+                                                                    displayType={'text'} 
+                                                                    thousandSeparator={true} prefix={'Rp. '} 
+                                                                    renderText={value => <div>{value}</div>}/>
+                                                </div>
+                                            :
+                                                <div className="main-font-size">
+                                                    <CurrencyFormat value={this.props.npv} 
+                                                                    displayType={'text'} 
+                                                                    thousandSeparator={true} prefix={'Rp. '} 
+                                                                    renderText={value => <div>{value}</div>}/>
+                                                </div>
                                         :
                                             (this.props.typeOptimize == "g")
                                             ?

@@ -8,11 +8,12 @@ import {environment} from './const/environment';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux'
 import { reducer } from './redux/reducer';
-import { getCookieToken } from './function/function';
+import { getCookieToken, getCookieUserType } from './function/function';
 
 /*set default / interceptor request*/
 axios.defaults.baseURL = environment.baseUrl;
 axios.defaults.headers.common['token'] = getCookieToken();
+axios.defaults.headers.common['user-type'] = getCookieUserType();
 let store = createStore(reducer)
 
 ReactDOM.render(

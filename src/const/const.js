@@ -22,7 +22,6 @@ export const infoInput = [
     {"name":"rugi-rugi dan kebutuhan", "desc": "Rugi-rugi dan kebutuhan daya pendukung (default value=10%)"}
 ]
 
-
 export const constInfoInput = [
     infoBiayaSpkluPerSite,
     infoHargaJualPln,
@@ -35,11 +34,11 @@ export const constInfoInput = [
 ]
 
 export const choicesOptimize = [
-    // {"id":"a", "desc": "NPV maksimum"},
+    {"id":"a", "desc": "NPV maksimum", "text" : "NPV", "name": "npv-maksimum"},
     {"id":"b", "desc": "Harga EVSE maksimum", "text" : "Harga EVSE", "name":"harga-evse"},
     {"id":"c", "desc": "Persen subsidi energi minimum","text" : "Subsidi energi", "name":"subsidi-energi"},
     {"id":"d", "desc": "Rasio SPKLU:BEV minimum", "text" : "Rasio Spklu : BEV", "name":"rasio-spklu"},
-    {"id":"e", "desc": "Rasio harga listrik PLN maksimum", "text" : "Rasio harga listrik PLN", "name":"rasio-harga-listrik-pln"},
-    {"id":"f", "desc": "Rasio tarif jual SPKLU minimum", "text" : "Rasio tarif jual SPKLU", "name":"rasio-tarif-jual-spklu"},
+    {"id":"e", "desc": "Harga listrik PLN maksimum", "text" : "Harga listrik PLN", "name":"rasio-harga-listrik-pln"},
+    {"id":"f", "desc": "Tarif jual SPKLU minimum", "text" : "Tarif jual SPKLU", "name":"rasio-tarif-jual-spklu"},
     {"id":"g", "desc": "Biaya sewa lahan maksimum", "text" : "Biaya sewa lahan", "name":"biaya-sewa-lahan"}
 ]

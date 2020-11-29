@@ -40,7 +40,9 @@ class index extends React.Component{
     typeOptimize: null,
     isLoadStart: true,
     hideOptimize: true,
-    requestCalculate: {}
+    npvNormal: "",
+    requestCalculate: {},
+    lastRequestParam: {}
   }
 
   inputBiayaEvse = React.createRef()
@@ -99,7 +101,7 @@ class index extends React.Component{
         this.inputRasioSpklu.current.value = this.props.dataDefault.rasioSpklu
         this.inputRugiDayaPendukung.current.value = this.props.dataDefault.rugiDayaPendukung
         this.inputJumlahDispenser.current.value = this.props.dataDefault.jumlahDispenser
-
+    
         this.setState({
           biayaKelistrikan: this.props.dataDefault.biayaPekerjaanKelistrikan,
           biayaSipil: this.props.dataDefault.biayaPekerjaanSipil,
@@ -111,23 +113,9 @@ class index extends React.Component{
         this.baseKalkulator.current.style.display = "block"
       }
     })
-  }
 
-  // componentDidUpdate(prevProps){
-  //   if(prevProps != this.props){
-  //     this.setState({
-  //       biayaEvse: this.props.dataDefault.hargaEVSE,
-  //       biayaSewaLahan: this.props.dataDefault.biayaSewaLahan
-  //     })
-      
-  //     this.inputRasioSpklu.current.value = this.props.dataDefault.rasioSpklu
-  //     this.inputHargaJualPln.current.value = this.props.dataDefault.hargaJualPln
-  //     this.inputHargaJualKonsumen.current.value = this.props.dataDefault.hargaJualKonsumen
-  //     // console.log(this.props.dataDefault.biayaSewaLahan)
-  //     // console.log(this.inputBiayaSewaLahan.current)
-  //     this.inputBiayaSewaLahan.current.value = this.props.dataDefault.biayaSewaLahan
-  //   } 
-  // }
+    axios.get("/api/visit")
+  }
 
   runSimulasi(type, isGetCsv){
     let pph = this.inputPph.current.value
@@ -135,7 +123,19 @@ class index extends React.Component{
     let discountRate = this.inputDiscountRate.current.value
     let subsidiEnergi = this.inputSubsidiEnergi.current.value
     let jumlahKendaraanInisial = this.inputJumlahKendaraanInisial.current.value
-    let biayaEvse = this.inputBiayaEvse.current.value
+    // let biayaEvse = this.inputBiayaEvse.current.value
+    let biayaEvse = 0
+    let haraPerEvse = []
+    let ievse = 0 
+    JSON.parse(this.state.biayaEvse).map(dt => {
+      ievse++
+      let obj = {}
+      obj.no = ievse
+      obj.value = dt.value
+      haraPerEvse.push(obj)
+      biayaEvse += parseInt(dt.value)
+    })
+
     let biayaKelistrikan = this.inputBiayaKelistrikan.current.value
     let biayaSipil = this.inputBiayaSipil.current.value
     let hargaJualPln = this.inputHargaJualPln.current.value
@@ -174,6 +174,7 @@ class index extends React.Component{
     jsonObjectEkonomi.biayaSpklu = biayaSpklu
     jsonObjectEkonomi.biayaInvestasiLahan = biayaInvestasiLahan
     jsonObjectEkonomi.subsidiEnergi = subsidiEnergi
+    jsonObjectEkonomi.haraPerEvse = haraPerEvse
 
     /*set parameter bisnis json*/
     jsonObjectBisnis.hargaJualPln = hargaJualPln
@@ -200,6 +201,9 @@ class index extends React.Component{
     jsonObject.parameterBisnis = jsonObjectBisnis
     jsonObject.parameterTeknis = jsonObjectTeknis
     jsonObject.years = jsonObjectYears
+
+    /*save request param*/
+    this.setState({lastRequestParam: jsonObject})
 
     let isValid = true
     let altClass = document.getElementsByClassName("base-alt-ip")
@@ -349,7 +353,7 @@ class index extends React.Component{
           let pp = res.data.data.responseCalculate.pprd
 
           let isSolutif = true
-          if(typeOptimize == "b" || typeOptimize == "c"){
+          if(typeOptimize == "b" || typeOptimize == "c" || typeOptimize == "a"){
             isSolutif = optzNpvMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
           }else if(typeOptimize == "d"){
             isSolutif = optzRasioMinimumSPKLUBEV(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
@@ -361,12 +365,21 @@ class index extends React.Component{
             isSolutif = optzBiayaSewaLahanMaksimum(k, p, d, u, q, n, g, npv, discountRate, irr, pp)
           }
 
-          if(!isSolutif){
+          if(!isSolutif.result){
+
+            let msgOptimize = "<span class='bold'>Hasil optimize tidak solutif</span><br/><br/>"
+            for(let i = 0;i<isSolutif.message.length;i++){
+              console.log(isSolutif.message.length)
+              let msg = isSolutif.message[i]
+              msgOptimize += msg+"<br/>"
+            }
+
             this.setState({
               data: null,
               isLoad: false,
-              alertBase: <Alert alertDescription={"hasil optimize tidak solutif"} okAlert={this.hideAlert}/>
+              alertBase: <Alert alertDescription={msgOptimize} okAlert={this.hideAlert}/>
             })
+
           }else{
             this.setState({
               data: res.data.data,
@@ -391,7 +404,8 @@ class index extends React.Component{
             discountRate: discountRate,
             requestCalculate: res.data.data.requestCalculate,
             isLoad: false,
-            hideOptimize: false
+            hideOptimize: false,
+            npvNormal: res.data.data.responseCalculate.npv
           })
         })
       }
@@ -401,11 +415,17 @@ class index extends React.Component{
 
       let par = (!this.state.isOptimize) ? jsonObject : this.state.requestCalculate
       axios.post("/api/calculate/excel", par).then(res => {
-        // console.log(res.data.data)
-        // window.location.href = res.data.data
-        setTimeout(() => {
-          elm.style.display = "none"
-        }, 1500)
+
+        var newWin = window.open(res.data.data);    
+        if(!newWin || newWin.closed || typeof newWin.closed=='undefined') 
+        { 
+          let desc = "<div><span class='bold'>Popup diblokir</span>, buka pengaturan browser pastikan popup browser anda <span class='bold'>tidak diblokir</span>"
+          this.setState({
+            alertBase: <Alert alertDescription={desc} okAlert={this.hideAlert}/>
+          })
+        }
+
+        elm.style.display = "none"
       })
     }
   }
@@ -424,9 +444,29 @@ class index extends React.Component{
     // }
   }
 
+  // changeBiayaEvse(seq, val){
+  //   console.log(val)
+  //   let sq = seq - 1    
+  //   let data = JSON.parse(this.state.biayaEvse)
+    
+  //   if(data[sq] !== undefined){
+  //     data[sq].value = val
+  //   }else{
+  //     let newObj = {}
+  //     newObj.no = seq
+  //     newObj.value = val
+  //     data.push(newObj)
+  //   }
+    
+  //   data[sq].value = val
+  //   this.setState({
+  //     biayaEvse: JSON.stringify(data)
+  //   })
+  // }
+
   changeBiayaEvse(val){
     this.setState({
-      biayaEvse: val
+      biayaEvse: JSON.stringify(val)
     })
   }
 
@@ -491,9 +531,28 @@ class index extends React.Component{
   }
 
   copyOptimize(type, val){
+    console.log(val)
     if(type == "harga evse"){
+      let totalBiaya = 0
+      let l = JSON.parse(this.state.biayaEvse).length
+      
+      let data = JSON.parse(this.state.biayaEvse)
+      data.map(dt => {
+        totalBiaya += parseInt(dt.value)
+      })
+
+      console.log(totalBiaya)
+      let totalBiayaBaru = 0
+      let newData = data.map(dt => {
+        let curVal = parseFloat(dt.value)
+        let v = (curVal / totalBiaya) * val
+        dt.value = parseFloat(v).toFixed(2)
+        totalBiayaBaru += parseFloat(v)
+        return dt
+      })
+      
       this.setState({
-        biayaEvse: val
+        biayaEvse: JSON.stringify(newData)
       })
     }
     
@@ -562,7 +621,6 @@ class index extends React.Component{
                 inputJumlahKonetor={this.inputJumlahKonektor}
                 jumlahKonektorData={this.props.dataDefault.jumlahKonektor}
                 inputJumlahDispenser={this.inputJumlahDispenser}
-                // inputDayaMaksimum={this.inputDayaMaksimum}
                 inputKapasitasKbl={this.inputKapasitasKbl}
                 inputRugiDayaPendukung={this.inputRugiDayaPendukung}
                 inputBiayaSewaLahan={this.inputBiayaSewaLahan}
@@ -592,6 +650,8 @@ class index extends React.Component{
                 typeOptimize={this.state.typeOptimize}
                 tsOptimizeSolutif={this.state.isOptimaziSolutif}
                 copyOptimize={this.copyOptimize}
+                npvNormal={this.state.npvNormal}
+                lastRequestParam={this.state.lastRequestParam}
             />
           </div>
           

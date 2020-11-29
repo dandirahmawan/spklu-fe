@@ -18,16 +18,13 @@ class parameter_bisnis_form extends Component {
             rasioSpklu: "",
             durasiPenggunaan: "",
             biayaSewaLahan: "",
-            jumlahEvse: "",
             dataKonektor: [],
             isSaving: false
         }
 
-        this.changeEvse = this.changeEvse.bind(this)
         this.save = this.save.bind(this)
         this.changeBiayaSewaLahan = this.changeBiayaSewaLahan.bind(this)
         this.changeDurasiPenggunaan = this.changeDurasiPenggunaan.bind(this)
-        this.changeEvse = this.changeEvse.bind(this)
         this.changeHargaJualKonsumen = this.changeHargaJualKonsumen.bind(this)
         this.changeHargaJualPln = this.changeHargaJualPln.bind(this)
         this.changePertumbuhanKb = this.changePertumbuhanKb.bind(this)
@@ -43,7 +40,6 @@ class parameter_bisnis_form extends Component {
             rasioSpklu: data.rasioSpklu,
             durasiPenggunaan: data.durasiPenggunaanEvse,
             biayaSewaLahan: data.biayaSewaLahan,
-            jumlahEvse: data.jumlahDispenser,
             dataKonektor: JSON.parse(data.jumlahKonektor)
         })
     }
@@ -84,13 +80,6 @@ class parameter_bisnis_form extends Component {
         })
     }
 
-    changeEvse(e){
-        let val = e.target.value
-        this.setState({
-            jumlahEvse: val
-        })
-    }
-
     save(){
          /*set data konektor*/
          let je = this.state.jumlahEvse
@@ -116,7 +105,6 @@ class parameter_bisnis_form extends Component {
         let rasioSpklu = this.setObj("rasio_spklu", this.state.rasioSpklu, null)
         let durasiPenggunaan = this.setObj("durasi_penggunaan_evse", this.state.durasiPenggunaan, null)
         let biayaSewaLahan = this.setObj("biaya_sewa_lahan", this.state.biayaSewaLahan, null)
-        let jumlahEvse = this.setObj("jumlah_evse", this.state.jumlahEvse, null)
         let jumlahKonektor = this.setObj("jumlah_konektor", JSON.stringify(this.state.dataKonektor), null)
 
         params.push(hargaJualPln)
@@ -125,7 +113,6 @@ class parameter_bisnis_form extends Component {
         params.push(rasioSpklu)
         params.push(durasiPenggunaan)
         params.push(biayaSewaLahan)
-        params.push(jumlahEvse)
         params.push(jumlahKonektor)
 
         this.setState({
@@ -271,21 +258,6 @@ class parameter_bisnis_form extends Component {
                                                     const {formattedValue, value} = values
                                                     this.changeBiayaSewaLahan(value)
                                                 }}/>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="main-font-size bold" style={{textAlign: "right"}}>Jumlah EVSE</td>
-                            <td><div className="main-font-size main-border" 
-                                    style={{display: "flex", alignItems: "center", marginLeft: "10px", borderRadius: "3px"}}>
-                                    <div className="gryscale-font-color">
-                                        <FontAwesomeIcon icon={faPlus} style={{marginRight: "5px", marginLeft: "10px"}}/>
-                                    </div>
-                                    
-                                    <input onChange={this.changeEvse} value={this.state.jumlahEvse}
-                                        placeholder="rasio SPKLU / KBL" 
-                                        type="text" 
-                                        style={{width: "200px"}}/>
                                 </div>
                             </td>
                         </tr>
