@@ -136,7 +136,7 @@ class charts extends React.Component{
             },
 
             title: {
-                text: '<span class="bold">Roadmap Kebutuhan SPKLU vs Jumlah EV</span>'
+                text: '<span class="bold">Roadmap Kebutuhan SPKLU vs Jumlah KL</span>'
             },
 
             xAxis: {
@@ -152,7 +152,7 @@ class charts extends React.Component{
 
             series: [
                 {
-                    name    : 'Jumlah EV',
+                    name    : 'Jumlah KL',
                     color   : 'green',
                     data    : this.state.valuepkl
                 }, {
@@ -200,7 +200,7 @@ class charts extends React.Component{
                 <div style={{marginRight: "320px", position: "relative", zIndex: "-1"}}>
                     <div className="main-border" style={{padding: "10px", marginBottom: "5px", background: "#FFF"}}>
                         <a onClick={(e) => this.chartMenu(e, "1")} className="main-font-size chart-menu">Cashflow SPKLU</a>
-                        <a onClick={(e) => this.chartMenu(e, "2")} className="main-font-size gryscale-font-color chart-menu" style={{paddingBottom: "10px"}}>Roadmap SPKLU dan EV</a>
+                        <a onClick={(e) => this.chartMenu(e, "2")} className="main-font-size gryscale-font-color chart-menu" style={{paddingBottom: "10px"}}>Roadmap SPKLU dan KL</a>
                         <a onClick={(e) => this.chartMenu(e, "3")} className="main-font-size gryscale-font-color chart-menu" style={{paddingBottom: "10px"}}>Chart Biaya Expenses</a>
                     </div>
                     {this.state.popup}

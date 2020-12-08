@@ -18,8 +18,16 @@ export const infoInput = [
     {"name":"pertumbuhan kbl", "desc": "Asumsi laju petumbuhan jumlah KBL pertahun"},
     {"name":"rasio spklu", "desc": "Rasio berapa jumlah KBL yang ditargetkan untuk dilayani sebuah SPKLU tunggal"},
     {"name":"jumlah konektor", "desc": "Jumlah konektor pada spklu"},
-    {"name":"kapasitas kbl", "desc": "Kapasitas pengisian 1 kendaraan listrik (default value=25 kWh)"},
-    {"name":"rugi-rugi dan kebutuhan", "desc": "Rugi-rugi dan kebutuhan daya pendukung (default value=10%)"}
+    {"name":"kapasitas kbl", "desc": "Kapasitas pengisian 1 kendaraan listrik"},
+    {"name":"rugi-rugi dan kebutuhan", "desc": "Rugi-rugi dan kebutuhan daya pendukung"},
+    {"name":"jumlah-ppkl", "desc": "Jumlah PPKL pada satu spklu"},
+    {"name":"penggunaan-ppkl", "desc": "Durasi penggunaan PPKL dalam sehari"},
+    {"name":"sewa-lahan", "desc": "Biya sewa lahan setiap tahun"},
+    {"name":"konektor-info", "desc": "Daya konektor akan berpengaruh pada perhitungan Optimize NPV Maksimum"},
+    {"name":"biaya-operasional", "desc": "Persentase dari Capex per tahun"},
+    {"name":"biaya-kelistrikan", "desc": "Biaya untuk pekerjaan kelistrikan"},
+    {"name":"biaya-sipil", "desc": "Biaya untuk pekerjaan sipil"},
+    {"name":"harga-ppkl", "desc": "Harga satu PPKL (Perangkat Pengisian Kendaraan Listrik)"},
 ]
 
 export const constInfoInput = [
@@ -35,9 +43,9 @@ export const constInfoInput = [
 
 export const choicesOptimize = [
     {"id":"a", "desc": "NPV maksimum", "text" : "NPV", "name": "npv-maksimum"},
-    {"id":"b", "desc": "Harga EVSE maksimum", "text" : "Harga EVSE", "name":"harga-evse"},
+    {"id":"b", "desc": "Harga PPKL maksimum", "text" : "Harga PPKL", "name":"harga-evse"},
     {"id":"c", "desc": "Persen subsidi energi minimum","text" : "Subsidi energi", "name":"subsidi-energi"},
-    {"id":"d", "desc": "Rasio SPKLU:BEV minimum", "text" : "Rasio Spklu : BEV", "name":"rasio-spklu"},
+    {"id":"d", "desc": "KLBB : Rasio SPKLU minimum", "text" : "KLBB : Rasio Spklu", "name":"rasio-spklu"},
     {"id":"e", "desc": "Harga listrik PLN maksimum", "text" : "Harga listrik PLN", "name":"rasio-harga-listrik-pln"},
     {"id":"f", "desc": "Tarif jual SPKLU minimum", "text" : "Tarif jual SPKLU", "name":"rasio-tarif-jual-spklu"},
     {"id":"g", "desc": "Biaya sewa lahan maksimum", "text" : "Biaya sewa lahan", "name":"biaya-sewa-lahan"}

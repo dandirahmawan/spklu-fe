@@ -19,7 +19,11 @@ const initState = {
     kapasitasKbl:  "",
     rugiDayaPendukung: "",
     jumlahDispenser: "",
-    subsidiEnergi: ""
+    subsidiEnergi: "",
+    biayaOperasional: "",
+    biayaPemasaran: "",
+    biayaTakTerduga: "",
+    gajiPerSpklu: ""
 } 
 
 export function reducer(state = initState, action){
@@ -46,6 +50,10 @@ export function reducer(state = initState, action){
             if(data[i].name == "rasio_spklu") dataDefault.rasioSpklu = data[i].value
             if(data[i].name == "jumlah_evse") dataDefault.jumlahDispenser = data[i].value
             if(data[i].name == "subsidi_energi") dataDefault.subsidiEnergi = data[i].value
+            if(data[i].name == "biaya_operasional") dataDefault.biayaOperasional = data[i].value
+            if(data[i].name == "biaya_pemasaran") dataDefault.biayaPemasaran = data[i].value
+            if(data[i].name == "biaya_tak_terduga") dataDefault.biayaTakTerduga = data[i].value
+            if(data[i].name == "gaji_per_spklu") dataDefault.gajiPerSpklu = data[i].value
         }
     }
 

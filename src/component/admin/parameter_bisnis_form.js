@@ -226,7 +226,7 @@ class parameter_bisnis_form extends Component {
                             </td>
                         </tr>
                         <tr>
-                            <td className="main-font-size bold" style={{textAlign: "right"}}>Durasi penggunaan EVSE / hari (jam)</td>
+                            <td className="main-font-size bold" style={{textAlign: "right"}}>Durasi penggunaan PPKL / hari (jam)</td>
                             <td>
                                 <div className="main-font-size main-border" 
                                     style={{display: "flex", alignItems: "center", marginLeft: "10px", borderRadius: "3px"}}>
@@ -236,7 +236,7 @@ class parameter_bisnis_form extends Component {
                                     
                                     <input value={this.state.durasiPenggunaan}
                                         onChange={this.changeDurasiPenggunaan}
-                                        placeholder="Durasi penggunaan EVSE / hari" 
+                                        placeholder="Durasi penggunaan ppkl / hari" 
                                         type="text" 
                                         style={{width: "200px"}}/>
                                 </div>

@@ -170,7 +170,7 @@ class parameter_teknis_form extends React.Component {
             return(
                 <tr>
                     <td className="main-font-size bold" valign="top" style={{textAlign: "right", paddingTop: "9px"}}>
-                        Konektor EVSE {i}</td>
+                        Konektor PPKL {i}</td>
                     <td>
                         <div className="main-font-size main-border" 
                             style={{display: "flex", alignItems: "center", marginLeft: "10px", borderRadius: "3px"}}>

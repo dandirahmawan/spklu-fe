@@ -188,14 +188,14 @@ class kondisi_ekonomi_form extends Component{
 
         const inputHargaEvse = this.state.hargaEvse.map(dt => { 
                                 return <tr>
-                                            <td className="main-font-size bold" style={{textAlign: "right"}}>Harga EVSE {dt.no}</td>
+                                            <td className="main-font-size bold" style={{textAlign: "right"}}>Harga PPKL {dt.no}</td>
                                             <td>
                                                 <div className="main-font-size main-border" 
                                                     style={{display: "flex", alignItems: "center", marginLeft: "10px", borderRadius: "3px"}}>
                                                     <div className="gryscale-font-color">
                                                         <FontAwesomeIcon icon={faCoins} style={{marginRight: "5px", marginLeft: "10px"}}/>
                                                     </div>
-                                                    <CurrencyFormat placeholder="Harga EVSE"
+                                                    <CurrencyFormat placeholder="Harga PPKL"
                                                                 value={dt.value}
                                                                 style={{width: "200px"}} 
                                                                 thousandSeparator={true} prefix={''} 
@@ -347,7 +347,7 @@ class kondisi_ekonomi_form extends Component{
                             </td>
                         </tr>
                         <tr>
-                            <td className="main-font-size bold" style={{textAlign: "right"}}>Jumlah EVSE</td>
+                            <td className="main-font-size bold" style={{textAlign: "right"}}>Jumlah PPKL</td>
                             <td><div className="main-font-size main-border" 
                                     style={{display: "flex", alignItems: "center", marginLeft: "10px", borderRadius: "3px"}}>
                                     <div className="gryscale-font-color">

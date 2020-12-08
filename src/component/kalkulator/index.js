@@ -41,6 +41,7 @@ class index extends React.Component{
     isLoadStart: true,
     hideOptimize: true,
     npvNormal: "",
+    gajiPerSpklu:"",
     requestCalculate: {},
     lastRequestParam: {}
   }
@@ -68,11 +69,16 @@ class index extends React.Component{
   inputPenggunaanEvse = React.createRef()
   baseKalkulator = React.createRef()
   inputJumlahDispenser = React.createRef()
+  inputBiayaOperasional = React.createRef()
+  inputBiayaPemasaran = React.createRef()
+  inputBiayaTakTerduga = React.createRef()
+  inputGajiPerSpklu = React.createRef()
 
   changeBiayaEvse = this.changeBiayaEvse.bind(this)
   changeBiayaKelistrikan = this.changeBiayaKelistrikan.bind(this)
   changeBiayaSipil = this.changeBiayaSipil.bind(this)
   changeBiayaSewaLahan = this.changeBiayaSewaLahan.bind(this)
+  changeGajiPerSpklu = this.changeGajiPerSpklu.bind(this)
   hideOptimizeAction = this.hideOptimizeAction.bind(this)
   runSimulasi = this.runSimulasi.bind(this)
   hideAlert = this.hideAlert.bind(this)
@@ -94,7 +100,10 @@ class index extends React.Component{
         this.inputInflasi.current.value = this.props.dataDefault.inflasi
         this.inputJumlahKendaraanInisial.current.value = this.props.dataDefault.jumlahKendaraanInisial
         this.inputSubsidiEnergi.current.value = this.props.dataDefault.subsidiEnergi
-        
+        this.inputBiayaTakTerduga.current.value = this.props.dataDefault.biayaTakTerduga 
+        this.inputBiayaOperasional.current.value = this.props.dataDefault.biayaOperasional
+        this.inputBiayaPemasaran.current.value = this.props.dataDefault.biayaPemasaran
+
         this.inputKapasitasKbl.current.value = this.props.dataDefault.kapasitasKbl
         this.inputPertumbuhanKblPerTahun.current.value = this.props.dataDefault.pertumbuhanKbl
         this.inputPph.current.value = this.props.dataDefault.pph
@@ -107,6 +116,7 @@ class index extends React.Component{
           biayaSipil: this.props.dataDefault.biayaPekerjaanSipil,
           biayaSewaLahan: this.props.dataDefault.biayaSewaLahan,
           biayaEvse: this.props.dataDefault.hargaEVSE,
+          gajiPerSpklu: this.props.dataDefault.gajiPerSpklu,
           isLoadStart: false
         })
 
@@ -150,6 +160,9 @@ class index extends React.Component{
     let penggunaanEvse = this.inputPenggunaanEvse.current.value
     let biayaSpklu = parseFloat(biayaEvse)
     let biayaInvestasiLahan = parseFloat(biayaKelistrikan) + parseFloat(biayaSipil)
+    let biayaOperasional = this.inputBiayaOperasional.current.value
+    let biayaPemasaran = this.inputBiayaPemasaran.current.value
+    let biayaTakTerduga = this.inputBiayaTakTerduga.current.value
 
     /*get total daya*/
     this.state.dayaLuaran = 0
@@ -183,6 +196,10 @@ class index extends React.Component{
     jsonObjectBisnis.rasioSpklu = rasioSpklu
     jsonObjectBisnis.biayaSewaLahan = sewaLahan
     jsonObjectBisnis.penggunaanEvsePerJam = penggunaanEvse
+    jsonObjectBisnis.biayaOperasional = biayaOperasional
+    jsonObjectBisnis.biayaPemasaran = biayaPemasaran
+    jsonObjectBisnis.biayaTakTerduga = biayaTakTerduga
+    jsonObjectBisnis.gajiPerSpklu = this.state.gajiPerSpklu
 
     /*set parameter teknis json*/
     let dataKonektor = this.getDataInputKonektor()
@@ -241,16 +258,17 @@ class index extends React.Component{
 
     /*validation tiap kwh konektor*/
     let inputEachKonektor = document.getElementsByClassName("kwh-jmk-chl")
+    console.log(inputEachKonektor)
     for(let i = 0;i < inputEachKonektor.length;i++){
       let value = inputEachKonektor[i].value
       if(value <= 0 || value == ""){
         isValid = false
         
-        let prt = inputEachKonektor[i].parentElement.parentElement
+        let prt = inputEachKonektor[i].parentElement.parentElement.parentElement
         let child = prt.children[2]
         child.style.display = "block"
       }else{
-        let prt = inputEachKonektor[i].parentElement.parentElement
+        let prt = inputEachKonektor[i].parentElement.parentElement.parentElement
         let child = prt.children[2]
         child.style.display = "none"
       }
@@ -488,6 +506,12 @@ class index extends React.Component{
     })
   }
 
+  changeGajiPerSpklu(val){
+    this.setState({
+      gajiPerSpklu: val
+    })
+  }
+
   hideOptimizeAction(){
     this.setState({
       hideOptimize: true
@@ -508,7 +532,8 @@ class index extends React.Component{
 
       let arrJo = []
       for(let ii = 0;ii<chld.length;ii++){
-        let valData = chld[ii].children[1].children[1].value
+        console.log(chld[ii])
+        let valData = chld[ii].children[1].children[0].children[1].value
         let joKonektor = {}
         joKonektor.no = parseInt(1) + i
         joKonektor.value = valData
@@ -625,14 +650,20 @@ class index extends React.Component{
                 inputRugiDayaPendukung={this.inputRugiDayaPendukung}
                 inputBiayaSewaLahan={this.inputBiayaSewaLahan}
                 inputPenggunaanEvse={this.inputPenggunaanEvse}
+                inputBiayaPemasaran={this.inputBiayaPemasaran}
+                inputBiayaOperasional={this.inputBiayaOperasional}
+                inputBiayaTakTerduga={this.inputBiayaTakTerduga}
+                // inputGajiPerSpklu={this.inputGajiPerSpklu}
                 biayaEvse= {this.state.biayaEvse}
                 biayaSipil= {this.state.biayaSipil}
                 biayaKelistrikan= {this.state.biayaKelistrikan}
                 biayaSewaLahan= {this.state.biayaSewaLahan}
+                gajiPerSpklu={this.state.gajiPerSpklu}
                 changeBiayaEvse= {this.changeBiayaEvse}
                 changeBiayaKelistrikan= {this.changeBiayaKelistrikan}
                 changeBiayaSipil= {this.changeBiayaSipil}
                 changeBiayaSewaLahan= {this.changeBiayaSewaLahan}
+                changeGajiPerSpklu={this.changeGajiPerSpklu}
                 keyUpInput={this.keyUpInput}
             />
 

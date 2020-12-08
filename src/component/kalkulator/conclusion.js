@@ -227,7 +227,7 @@ class conclusionns extends React.Component{
                         <table>
                             <tbody className="main-font-size">
                                 <tr>
-                                    <td className="bold" style={{padding: "5px", textAlign: "right"}}>Rasio Harga Beli Listrik : BEV</td>
+                                    <td className="bold" style={{padding: "5px", textAlign: "right"}}>Harga Beli Listrik : KLBB</td>
                                     <td>:</td>
                                     <td style={{padding: "5px"}}>
                                         {this.props.data.requestCalculate.parameterBisnis.hargaJualPln}&nbsp;&nbsp;
@@ -243,7 +243,7 @@ class conclusionns extends React.Component{
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="bold" style={{padding: "5px", textAlign: "right"}}>Rasio Harga Jual Konsumen</td>
+                                    <td className="bold" style={{padding: "5px", textAlign: "right"}}>Harga Jual Konsumen</td>
                                     <td>:</td>
                                     <td style={{padding: "5px"}}>
                                         {this.props.data.requestCalculate.parameterBisnis.hargaJualKonsumen}&nbsp;&nbsp;
@@ -259,7 +259,7 @@ class conclusionns extends React.Component{
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="bold" style={{padding: "5px", textAlign: "right"}}>Rasio SPKLU : BEV</td>
+                                    <td className="bold" style={{padding: "5px", textAlign: "right"}}>Rasio SPKLU : KLBB</td>
                                     <td>:</td>
                                     <td style={{padding: "5px"}}>
                                         {this.props.data.requestCalculate.parameterBisnis.rasioSpklu}&nbsp;&nbsp;

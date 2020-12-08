@@ -65,13 +65,20 @@ class input_konektor extends Component{
             let no = i
             return <div style={{alignItems: "center", marginBottom: "3px"}}>
                         <div style={{fontSize: "12px", marginBottom: "2px"}}>daya konektor ke {i} (Kw)</div>
-                        <div className="main-border base-input-form" style={{width: "185px", display: "flex", }}>
-                            <div className="bold main-font-size" style={{color: "#000", padding: "7px"}}>{i}.</div>
-                            <input className="kwh-jmk-chl main-font-size" 
-                                value={dt.value}
-                                onChange={(e) => this.changeDaya(e, no)}
-                                type="text" placeholder="(Kw)" 
-                                style={{width: "100%", boxSizing: "border-box"}}></input>
+                        <div style={{display: "flex", alignItems: "center"}}>
+                            <div className="main-border base-input-form" style={{width: "185px", display: "flex", }}>
+                                <div className="bold main-font-size" style={{color: "#000", padding: "7px"}}>{i}.</div>
+                                <input className="kwh-jmk-chl main-font-size" 
+                                    value={dt.value}
+                                    onChange={(e) => this.changeDaya(e, no)}
+                                    type="text" placeholder="(Kw)" 
+                                    style={{width: "90%", boxSizing: "border-box"}}></input>
+                            </div>
+                            <div style={{fontSize: "12px", marginLeft: "5px"}}>
+                                <a onClick={(e) => this.props.infoInput(e, "konektor-info")}>
+                                    <FontAwesomeIcon icon={faQuestionCircle}/>
+                                </a>
+                            </div>
                         </div>
                         <div className="base-alt-ip kwh-alt-val-21" style={{marginBottom: "2px"}}>
                             <FontAwesomeIcon icon={faQuestionCircle}/> daya konektor ke {i} belum diisi
@@ -81,7 +88,7 @@ class input_konektor extends Component{
 
         return(
             <Fragment>
-                <div className="main-font-size">Jumlah Konektor EVSE {this.props.no}</div>
+                <div className="main-font-size">Jumlah Konektor PPKL {this.props.no}</div>
                 <div style={{marginTop: "5px", marginBottom: "10px"}}>
                     <div style={{display: "flex", alignItems: "center"}}>
                         <div className="main-border base-input-form">

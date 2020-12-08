@@ -90,7 +90,7 @@ class index extends React.Component{
                     </div>
 
                     <div className="bold" style={{padding: "10px", textAlign: "center", zIndex: "1", fontSize: "25px", marginTop: "50px"}}>
-                        Kalkulator Tekno-Ekonomi FCS BPPT
+                        Kalkulator Tekno-Ekonomi SPKLU BPPT
                     </div>
                     
 

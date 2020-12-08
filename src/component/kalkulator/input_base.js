@@ -233,7 +233,7 @@ class input_base extends Component{
         const konektorDispenser = this.state.arrDispenser.map(dt => {
             i++
             let seq = parseInt(i) - 1
-            return <InputKonetor no={i} dataDefault={this.state.jumlahKonektor[seq]}/>
+            return <InputKonetor no={i} infoInput={this.infoInput} dataDefault={this.state.jumlahKonektor[seq]}/>
         })
 
         let x = 0
@@ -242,13 +242,13 @@ class input_base extends Component{
             let val = (data !== undefined) ? data.value : ""
             x++
             let seq = x
-            return <Fragment><div className="main-font-size">Harga EVSE {x}</div>
+            return <Fragment><div className="main-font-size">Harga PPKL {x}</div>
                         <div style={{marginTop: "5px", marginBottom: "10px"}}>
                             <div style={{display: "flex", alignItems: "center"}}>
                                 <div className="main-border base-input-form">
                                     <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faCoins}/>
                                     <CurrencyFormat value={this.state.profit} 
-                                        placeholder="Harga EVSE"
+                                        placeholder="Harga PPKL"
                                         style={{width: "100%", boxSizing: "border-box"}} 
                                         value={val}
                                         thousandSeparator={true} prefix={''} 
@@ -267,13 +267,13 @@ class input_base extends Component{
                                     </div>
                                 </div>
                                 <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                    <a onClick={(e) => this.infoInput(e, "biaya spklu")}>
+                                    <a onClick={(e) => this.infoInput(e, "harga-ppkl")}>
                                         <FontAwesomeIcon icon={faQuestionCircle}/>
                                     </a>
                                 </div>
                             </div>
                             <div className="base-alt-ip">
-                                <FontAwesomeIcon icon={faInfoCircle}/> Harga EVSE belum diisi
+                                <FontAwesomeIcon icon={faInfoCircle}/> Harga PPKL belum diisi
                             </div>
                         </div></Fragment>
         })
@@ -406,7 +406,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputBiayaSipil} value={this.props.biayaSipil} placeholder="Biaya SPKLU / site" style={{display: "none"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "biaya spklu")}>
+                                            <a onClick={(e) => this.infoInput(e, "biaya-sipil")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -434,7 +434,7 @@ class input_base extends Component{
                                             <input type="text" ref={this.props.inputBiayaKelistrikan} value={this.props.biayaKelistrikan} placeholder="Biaya SPKLU / site" style={{display: "none"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "biaya spklu")}>
+                                            <a onClick={(e) => this.infoInput(e, "biaya-kelistrikan")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -444,16 +444,16 @@ class input_base extends Component{
                                     </div>
                                 </div>
                                 
-                                <div className="main-font-size">Jumlah EVSE</div>
+                                <div className="main-font-size">Jumlah PPKL</div>
                                 <div style={{marginTop: "5px", marginBottom: "10px"}}>
                                     <div style={{display: "flex", alignItems: "center"}}>
                                             <div className="main-border base-input-form">
                                                 <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faPlus}/>
-                                                <select placeholder="jumlah EVSE" style={{border: "none", width: "100%", boxSizing: "border-box"}} 
+                                                <select placeholder="jumlah PPKL" style={{border: "none", width: "100%", boxSizing: "border-box"}} 
                                                         onChange={this.countDispenser} 
                                                         value={this.state.jumlahEvse}
                                                         ref={this.props.inputJumlahDispenser}>
-                                                    <option style={{color: "#CCC", display: "none"}}>pilih jumlah EVSE</option>
+                                                    <option style={{color: "#CCC", display: "none"}}>pilih jumlah PPKL</option>
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -467,13 +467,13 @@ class input_base extends Component{
                                                 </select>
                                             </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "rasio spklu")}>
+                                            <a onClick={(e) => this.infoInput(e, "jumlah-ppkl")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
                                     </div>
                                     <div className="base-alt-ip">
-                                        <FontAwesomeIcon icon={faInfoCircle}/> Jumlah Evse belum dipilih
+                                        <FontAwesomeIcon icon={faInfoCircle}/> Jumlah PPKL belum dipilih
                                     </div>  
                                 </div>
                                 
@@ -482,7 +482,7 @@ class input_base extends Component{
                                 <div style={{display: "flex", background: "#FFF", alignItems: "center", borderRadius: "3px", marginRight: "17px"}}>
                                     <FontAwesomeIcon style={{color: "#959595", fontSize: "16px", paddingLeft: "7px"}} icon={faCoins}/>
                                     <div style={{padding: "5px"}}>
-                                        <div className="bold" style={{color: "#000", marginBottom: "3px"}}>Total Biaya EVSE</div>
+                                        <div className="bold" style={{color: "#000", marginBottom: "3px"}}>Total Biaya PPKL</div>
                                         <CurrencyFormat
                                             readonly="true"
                                             style={{width: "100%", boxSizing: "border-box", background: "none", padding: "0px", fontSize: "12px"}} 
@@ -597,7 +597,7 @@ class input_base extends Component{
                                     </div>  
                                 </div>
 
-                                <div className="main-font-size">Durasi penggunaan EVSE / hari (jam)</div>
+                                <div className="main-font-size">Durasi penggunaan PPKL / hari (jam)</div>
                                 <div style={{marginTop: "5px", marginBottom: "10px"}}>
                                     <div style={{display: "flex", alignItems: "center"}}>
                                         <div className="main-border base-input-form">
@@ -605,13 +605,13 @@ class input_base extends Component{
                                             <input type="text" onKeyUp={this.props.keyUpInput} ref={this.props.inputPenggunaanEvse} placeholder="Durasi penggunaan EVSE / hari (jam)" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "rasio spklu")}>
+                                            <a onClick={(e) => this.infoInput(e, "penggunaan-ppkl")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
                                     </div>
                                     <div className="base-alt-ip">
-                                        <FontAwesomeIcon icon={faInfoCircle}/> Durasi penggunaan EVSE belum diisi
+                                        <FontAwesomeIcon icon={faInfoCircle}/> Durasi penggunaan PPKL belum diisi
                                     </div>  
                                 </div>
 
@@ -641,7 +641,7 @@ class input_base extends Component{
                                             </div>
                                         </div>
                                         <div style={{fontSize: "12px", marginLeft: "5px"}}>
-                                            <a onClick={(e) => this.infoInput(e, "rasio spklu")}>
+                                            <a onClick={(e) => this.infoInput(e, "sewa-lahan")}>
                                                 <FontAwesomeIcon icon={faQuestionCircle}/>
                                             </a>
                                         </div>
@@ -651,7 +651,104 @@ class input_base extends Component{
                                     </div>  
                                 </div>
 
-                                
+                                <div className="main-font-size">Biaya Operasionl</div>
+                                <div style={{marginTop: "5px", marginBottom: "10px"}}>
+                                    <div style={{display: "flex", alignItems: "center"}}>
+                                        <div className="main-border base-input-form">
+                                            <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faPercent}/>
+                                            <input type="text" onKeyUp={this.props.keyUpInput} ref={this.props.inputBiayaOperasional} placeholder="Biaya operasional" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
+                                            
+                                            <div className="txt-cpy" attr="pln-txt-cpy">
+                                                <div style={{display: "flex", alignItems: "center"}}>
+                                                    <span style={{marginTop: "2px"}}><FontAwesomeIcon icon={faChevronCircleLeft}/></span>
+                                                    &nbsp;&nbsp;&nbsp;Hasil optimasi telah disalin
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style={{fontSize: "12px", marginLeft: "5px"}}>
+                                            <a onClick={(e) => this.infoInput(e, "biaya-operasional")}>
+                                                <FontAwesomeIcon icon={faQuestionCircle}/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div className="base-alt-ip">
+                                        <FontAwesomeIcon icon={faInfoCircle}/> Biaya operasional belum diisi
+                                    </div>
+                                </div>
+
+                                <div className="main-font-size">Biaya Pemasaran</div>
+                                <div style={{marginTop: "5px", marginBottom: "10px"}}>
+                                    <div style={{display: "flex", alignItems: "center"}}>
+                                        <div className="main-border base-input-form">
+                                            <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faPercent}/>
+                                            <input type="text" onKeyUp={this.props.keyUpInput} ref={this.props.inputBiayaPemasaran}  placeholder="Biaya pemasaran" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
+
+                                        </div>
+                                        <div style={{fontSize: "12px", marginLeft: "5px"}}>
+                                            <a onClick={(e) => this.infoInput(e, "biaya-operasional")}>
+                                                <FontAwesomeIcon icon={faQuestionCircle}/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div className="base-alt-ip">
+                                        <FontAwesomeIcon icon={faInfoCircle}/> Biaya pemasaran belum diisi
+                                    </div>
+                                </div>
+
+                                <div className="main-font-size">Biaya Tak Terduga</div>
+                                <div style={{marginTop: "5px", marginBottom: "10px"}}>
+                                    <div style={{display: "flex", alignItems: "center"}}>
+                                        <div className="main-border base-input-form">
+                                            <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faPercent}/>
+                                            <input type="text" onKeyUp={this.props.keyUpInput} ref={this.props.inputBiayaTakTerduga}  placeholder="Biaya tak terduga" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input>
+                                            
+                                            <div className="txt-cpy" attr="pln-txt-cpy">
+                                                <div style={{display: "flex", alignItems: "center"}}>
+                                                    <span style={{marginTop: "2px"}}><FontAwesomeIcon icon={faChevronCircleLeft}/></span>
+                                                    &nbsp;&nbsp;&nbsp;Hasil optimasi telah disalin
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style={{fontSize: "12px", marginLeft: "5px"}}>
+                                            <a onClick={(e) => this.infoInput(e, "biaya-operasional")}>
+                                                <FontAwesomeIcon icon={faQuestionCircle}/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div className="base-alt-ip">
+                                        <FontAwesomeIcon icon={faInfoCircle}/> Biaya tak terduga belum diisi
+                                    </div>
+                                </div>
+
+                                <div className="main-font-size">Gaji Per SPKLU</div>
+                                <div style={{marginTop: "5px", marginBottom: "10px"}}>
+                                    <div style={{display: "flex", alignItems: "center"}}>
+                                        <div className="main-border base-input-form">
+                                            {/* <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faPercent}/>
+                                            <input type="text" onKeyUp={this.props.keyUpInput} ref={this.props.inputGajiPerSpklu}  placeholder="Gaji Per SPKLU" style={{width: "100%", boxSizing: "border-box"}} className="main-font-size"></input> */}
+                                            <FontAwesomeIcon style={{color: "#959595", fontSize: "11px", paddingLeft: "7px"}} icon={faCoins}/>
+                                            <CurrencyFormat
+                                                placeholder="Gaji per spklu"
+                                                value={this.props.gajiPerSpklu}
+                                                style={{width: "100%", boxSizing: "border-box"}} 
+                                                thousandSeparator={true} prefix={''} 
+                                                onValueChange={(values) => {
+                                                    const {formattedValue, value} = values
+                                                    this.props.changeGajiPerSpklu(value)
+                                                    // this.props.keyUpInput()
+                                                }
+                                            }/>
+                                        </div>
+                                        <div style={{fontSize: "12px", marginLeft: "5px"}}>
+                                            <a onClick={(e) => this.infoInput(e, "harga jual pln")}>
+                                                <FontAwesomeIcon icon={faQuestionCircle}/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div className="base-alt-ip">
+                                        <FontAwesomeIcon icon={faInfoCircle}/> Gaji per SPKLU belum diisi
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
